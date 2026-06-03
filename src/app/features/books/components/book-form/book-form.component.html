@@ -1,0 +1,36 @@
+<div class="page-container">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/books" aria-label="Retour à la liste">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1 class="page-title">
+      {{ isEdit() ? 'Modifier le livre' : 'Ajouter un livre' }}
+    </h1>
+  </div>
+
+  <mat-card appearance="outlined" class="form-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <formly-form
+          [form]="form"
+          [fields]="fields"
+          [model]="model"
+          [options]="options"
+        />
+
+        <div class="section-sep"></div>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" routerLink="/books">
+            <mat-icon>cancel</mat-icon>
+            Annuler
+          </button>
+          <button mat-flat-button type="submit" [disabled]="form.invalid">
+            <mat-icon>{{ isEdit() ? 'save' : 'add' }}</mat-icon>
+            {{ isEdit() ? 'Enregistrer les modifications' : 'Ajouter le livre' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

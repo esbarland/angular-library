@@ -1,0 +1,33 @@
+:host {
+  display: inline-flex;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star {
+  display: inline-flex;
+  align-items: center;
+  color: var(--mat-sys-outline);
+
+  mat-icon {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &.active mat-icon {
+    color: var(--mat-sys-primary);
+  }
+}
+
+.interactive .star {
+  cursor: pointer;
+
+  &:hover mat-icon {
+    color: var(--mat-sys-primary);
+  }
+}

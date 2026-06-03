@@ -1,0 +1,144 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1 class="page-title">
+      <mat-icon class="title-icon">local_library</mat-icon>
+      Ma Bibliothèque
+      <span class="count-badge">{{ bookService.count() }}</span>
+    </h1>
+
+    <div class="controls-row">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+        <mat-label>Rechercher un livre, auteur, genre…</mat-label>
+        <input
+          matInput
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)"
+        />
+        @if (searchQuery()) {
+          <button matSuffix mat-icon-button (click)="searchQuery.set('')" aria-label="Effacer">
+            <mat-icon>close</mat-icon>
+          </button>
+        } @else {
+          <mat-icon matSuffix>search</mat-icon>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="sort-field">
+        <mat-label>Trier par</mat-label>
+        <mat-select [value]="sortOption()" (selectionChange)="sortOption.set($event.value)">
+          @for (opt of sortOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <a mat-flat-button routerLink="/books/new" class="add-btn">
+        <mat-icon>add</mat-icon>
+        Nouveau livre
+      </a>
+    </div>
+
+    @if (availableGenres().length > 0) {
+      <div class="genre-filters">
+        <mat-chip-listbox
+          [value]="selectedGenre()"
+          (change)="onGenreChange($event.value)"
+          aria-label="Filtrer par genre"
+        >
+          <mat-chip-option value="">Tous</mat-chip-option>
+          @for (genre of availableGenres(); track genre) {
+            <mat-chip-option [value]="genre">{{ genre }}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+    }
+  </header>
+
+  @if (filteredBooks().length > 0) {
+    <p class="results-info">
+      {{ totalCount() }} livre(s)
+      @if (searchQuery()) { pour "{{ searchQuery() }}" }
+      @if (selectedGenre()) { · {{ selectedGenre() }} }
+    </p>
+
+    <div class="books-list">
+      @for (book of paginatedBooks(); track book.id) {
+        <div class="book-row" (click)="viewBook(book)">
+          <div class="row-avatar">
+            <mat-icon>menu_book</mat-icon>
+          </div>
+
+          <div class="row-main">
+            <span class="row-title">{{ book.title }}</span>
+            <span class="row-author">{{ book.author }}</span>
+          </div>
+
+          <div class="row-badges">
+            @if (book.genre) {
+              <span class="genre-tag">{{ book.genre }}</span>
+            }
+            @if (book.publishedYear) {
+              <span class="year-tag">{{ book.publishedYear }}</span>
+            }
+            <span class="status-badge status-{{ book.readingStatus }}">
+              {{ statusLabels[book.readingStatus] }}
+            </span>
+          </div>
+
+          @if (book.rating) {
+            <app-star-rating [value]="book.rating" [isReadonly]="true" />
+          }
+
+          <div class="row-actions" (click)="$event.stopPropagation()">
+            <button mat-icon-button (click)="editBook(book)" matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-btn" (click)="deleteBook(book)" matTooltip="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (showPaginator()) {
+      <mat-paginator
+        [length]="totalCount()"
+        [pageSize]="pageSize()"
+        [pageIndex]="currentPage()"
+        [pageSizeOptions]="[10, 25, 50]"
+        (page)="onPageChange($event)"
+        aria-label="Pagination des livres"
+      />
+    }
+  } @else {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">library_books</mat-icon>
+      @if (searchQuery() || selectedGenre()) {
+        <h2>Aucun résultat</h2>
+        <p>Essayez de modifier vos filtres</p>
+        <div class="empty-actions">
+          @if (searchQuery()) {
+            <button mat-stroked-button (click)="searchQuery.set('')">
+              <mat-icon>clear</mat-icon>
+              Effacer la recherche
+            </button>
+          }
+          @if (selectedGenre()) {
+            <button mat-stroked-button (click)="selectedGenre.set('')">
+              <mat-icon>filter_alt_off</mat-icon>
+              Tous les genres
+            </button>
+          }
+        </div>
+      } @else {
+        <h2>Aucun livre dans la bibliothèque</h2>
+        <p>Ajoutez votre premier livre en cliquant sur le bouton ci-dessous</p>
+        <a mat-flat-button routerLink="/books/new">
+          <mat-icon>add</mat-icon>
+          Ajouter un livre
+        </a>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,81 @@
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+}
+
+.form-card {
+  padding: 8px;
+}
+
+.section-sep {
+  height: 1px;
+  background-color: var(--mat-sys-outline-variant);
+  margin: 16px 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+// ── Formly layout ──────────────────────────────────────────────────────────
+
+::ng-deep {
+  formly-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  formly-field .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  formly-group.two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    formly-field .mat-mdc-form-field {
+      width: 100%;
+    }
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--mat-sys-primary);
+    margin: 4px 0 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  ::ng-deep formly-group.two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

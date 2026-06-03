@@ -1,0 +1,17 @@
+<mat-toolbar class="app-toolbar">
+  <button mat-icon-button routerLink="/books" aria-label="Accueil">
+    <mat-icon>local_library</mat-icon>
+  </button>
+  <span class="app-title" routerLink="/books">Book Library</span>
+  <span class="spacer"></span>
+  <span class="book-count">{{ bookService.count() }} livre(s)</span>
+  <button
+    mat-icon-button
+    (click)="toggleTheme()"
+    [matTooltip]="isDark() ? 'Mode clair' : 'Mode sombre'"
+  >
+    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>
+
+<router-outlet />

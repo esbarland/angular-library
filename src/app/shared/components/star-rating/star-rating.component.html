@@ -1,0 +1,16 @@
+<div class="stars" [class.interactive]="!isReadonly()">
+  @for (star of stars; track star) {
+    <span
+      class="star"
+      [class.active]="(value() ?? 0) >= star"
+      (click)="!isReadonly() && rate(star)"
+      [attr.aria-label]="star + ' étoile(s)'"
+    >
+      @if ((value() ?? 0) >= star) {
+        <mat-icon>star</mat-icon>
+      } @else {
+        <mat-icon>star_border</mat-icon>
+      }
+    </span>
+  }
+</div>

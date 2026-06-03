@@ -1,0 +1,257 @@
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  min-height: calc(100vh - 64px);
+}
+
+.page-header {
+  margin-bottom: 16px;
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-size: 2rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--mat-sys-on-surface);
+}
+
+.title-icon {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  color: var(--mat-sys-primary);
+}
+
+.count-badge {
+  font-size: 0.875rem;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+.controls-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.sort-field {
+  width: 190px;
+  flex-shrink: 0;
+}
+
+.add-btn {
+  flex-shrink: 0;
+  padding: 0 20px;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.genre-filters {
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.results-info {
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 12px;
+}
+
+// ── Liste ──────────────────────────────────────────────────────────────────
+
+.books-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.book-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  background-color: var(--mat-sys-surface);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--mat-sys-surface-container-low);
+  }
+}
+
+.row-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 1.2rem;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+}
+
+.row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.row-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-author {
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.genre-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.year-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: var(--mat-sys-surface-variant);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  &.status-to-read {
+    background-color: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &.status-reading {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+  }
+
+  &.status-read {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+  }
+}
+
+.row-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.delete-btn {
+  color: var(--mat-sys-error);
+}
+
+mat-paginator {
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+// ── Empty state ────────────────────────────────────────────────────────────
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  gap: 16px;
+}
+
+.empty-icon {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+  color: var(--mat-sys-outline-variant);
+}
+
+.empty-state {
+  h2 { margin: 0; color: var(--mat-sys-on-surface-variant); }
+  p  { margin: 0; color: var(--mat-sys-outline); }
+}
+
+.empty-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+// ── Responsive ─────────────────────────────────────────────────────────────
+
+@media (max-width: 700px) {
+  .controls-row {
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    flex: 1 1 100%;
+  }
+
+  .sort-field {
+    flex: 1;
+    width: auto;
+  }
+
+  .add-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .row-badges {
+    display: none;
+  }
+}

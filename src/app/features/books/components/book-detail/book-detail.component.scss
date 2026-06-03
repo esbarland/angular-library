@@ -1,0 +1,168 @@
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-spacer {
+  flex: 1;
+}
+
+.detail-card {
+  padding: 8px;
+}
+
+.book-hero {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.book-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  flex-shrink: 0;
+}
+
+.book-icon {
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.book-main {
+  flex: 1;
+}
+
+.book-title {
+  margin: 0 0 4px;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+  line-height: 1.2;
+}
+
+.book-author {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-chip {
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &.status-to-read {
+    background-color: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &.status-reading {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+  }
+
+  &.status-read {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+  }
+}
+
+.genre-chip {
+  font-size: 0.75rem;
+}
+
+.divider {
+  margin: 20px 0;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 0.9375rem;
+  color: var(--mat-sys-on-surface);
+
+  &.isbn {
+    font-family: monospace;
+    font-size: 0.875rem;
+  }
+}
+
+.no-rating {
+  font-size: 0.875rem;
+  color: var(--mat-sys-outline);
+  font-style: italic;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--mat-sys-primary);
+  margin: 0 0 12px;
+}
+
+.description {
+  font-size: 0.9375rem;
+  color: var(--mat-sys-on-surface-variant);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+}
+
+@media (max-width: 600px) {
+  .book-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .badges {
+    justify-content: center;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .info-label {
+    min-width: unset;
+  }
+}

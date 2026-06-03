@@ -1,0 +1,25 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.app-title {
+  margin-left: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.book-count {
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-right: 8px;
+}
