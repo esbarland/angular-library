@@ -1,11 +1,13 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { TranslocoService, TranslocoPipe } from '@jsverse/transloco';
 import { BOOK_GENRES, BookFormData, READING_STATUSES, ReadingStatus } from '../../../../core/models/book.model';
 import { BookService } from '../../../../core/services/book.service';
 
@@ -26,6 +28,7 @@ interface BookFormModel {
   imports: [
     RouterLink,
     ReactiveFormsModule,
+    TranslocoPipe,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
@@ -39,6 +42,12 @@ export class BookFormComponent implements OnInit {
   private readonly bookService = inject(BookService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly translocoService = inject(TranslocoService);
+
+  private readonly currentLang = toSignal(
+    this.translocoService.langChanges$,
+    { initialValue: this.translocoService.getActiveLang() },
+  );
 
   readonly bookId = signal<string | null>(null);
   readonly isEdit = computed(() => this.bookId() !== null);
@@ -57,97 +66,98 @@ export class BookFormComponent implements OnInit {
     rating: null,
   };
 
-  readonly fields: FormlyFieldConfig[] = [
-    {
-      template: '<h3 class="section-title">Informations principales</h3>',
-    },
-    {
-      key: 'title',
-      type: 'input',
-      props: { label: 'Titre', placeholder: 'Le titre du livre', required: true },
-      validation: { messages: { required: 'Le titre est obligatoire' } },
-    },
-    {
-      key: 'author',
-      type: 'input',
-      props: { label: 'Auteur', placeholder: "Prénom et nom de l'auteur", required: true },
-      validation: { messages: { required: "L'auteur est obligatoire" } },
-    },
-    {
-      fieldGroupClassName: 'two-columns',
-      fieldGroup: [
-        {
-          key: 'genre',
-          type: 'select',
-          props: {
-            label: 'Genre',
-            options: [
-              { value: '', label: '-- Aucun --' },
-              ...BOOK_GENRES.map(g => ({ value: g, label: g })),
-            ],
-          },
-        },
-        {
-          key: 'publishedYear',
-          type: 'input',
-          props: {
-            label: 'Année de publication',
-            placeholder: 'ex : 2024',
-            type: 'number',
-          },
-          validators: {
-            validation: [Validators.min(1000), Validators.max(new Date().getFullYear())],
-          },
-          validation: {
-            messages: {
-              min: `Année invalide (entre 1000 et ${new Date().getFullYear()})`,
-              max: `Année invalide (entre 1000 et ${new Date().getFullYear()})`,
+  readonly fields = computed<FormlyFieldConfig[]>(() => {
+    this.currentLang();
+    return this.buildFields();
+  });
+
+  private buildFields(): FormlyFieldConfig[] {
+    const t = (key: string, params?: object) => this.translocoService.translate(key, params);
+    const currentYear = new Date().getFullYear();
+
+    return [
+      { template: `<h3 class="section-title">${t('form.sections.main')}</h3>` },
+      {
+        key: 'title',
+        type: 'input',
+        props: { label: t('form.title.label'), placeholder: t('form.title.placeholder'), required: true },
+        validation: { messages: { required: t('form.title.required') } },
+      },
+      {
+        key: 'author',
+        type: 'input',
+        props: { label: t('form.author.label'), placeholder: t('form.author.placeholder'), required: true },
+        validation: { messages: { required: t('form.author.required') } },
+      },
+      {
+        fieldGroupClassName: 'two-columns',
+        fieldGroup: [
+          {
+            key: 'genre',
+            type: 'select',
+            props: {
+              label: t('form.genre.label'),
+              options: [
+                { value: '', label: t('form.genre.none') },
+                ...BOOK_GENRES.map(g => ({ value: g, label: g })),
+              ],
             },
           },
-        },
-      ],
-    },
-    {
-      template: '<div class="section-sep"></div><h3 class="section-title">Informations complémentaires</h3>',
-    },
-    {
-      key: 'isbn',
-      type: 'input',
-      props: { label: 'ISBN', placeholder: 'ex : 978-2-07-036024-3' },
-    },
-    {
-      key: 'description',
-      type: 'textarea',
-      props: { label: 'Description', placeholder: 'Résumé ou description du livre…', rows: 4 },
-    },
-    {
-      template: '<div class="section-sep"></div><h3 class="section-title">Suivi de lecture</h3>',
-    },
-    {
-      fieldGroupClassName: 'two-columns',
-      fieldGroup: [
-        {
-          key: 'readingStatus',
-          type: 'select',
-          props: {
-            label: 'Statut',
-            options: READING_STATUSES.map(s => ({ value: s.value, label: s.label })),
+          {
+            key: 'publishedYear',
+            type: 'input',
+            props: { label: t('form.year.label'), placeholder: t('form.year.placeholder'), type: 'number' },
+            validators: { validation: [Validators.min(1000), Validators.max(currentYear)] },
+            validation: {
+              messages: {
+                min: () => t('form.year.invalid', { max: currentYear }),
+                max: () => t('form.year.invalid', { max: currentYear }),
+              },
+            },
           },
-        },
-        {
-          key: 'finishedAt',
-          type: 'input',
-          props: { label: 'Date de fin', type: 'date' },
-          expressions: { hide: "model.readingStatus !== 'read'" },
-        },
-      ],
-    },
-    {
-      key: 'rating',
-      type: 'star-rating',
-      props: { label: 'Note personnelle' },
-    },
-  ];
+        ],
+      },
+      { template: `<div class="section-sep"></div><h3 class="section-title">${t('form.sections.extra')}</h3>` },
+      {
+        key: 'isbn',
+        type: 'input',
+        props: { label: t('form.isbn.label'), placeholder: t('form.isbn.placeholder') },
+      },
+      {
+        key: 'description',
+        type: 'textarea',
+        props: { label: t('form.description.label'), placeholder: t('form.description.placeholder'), rows: 4 },
+      },
+      { template: `<div class="section-sep"></div><h3 class="section-title">${t('form.sections.tracking')}</h3>` },
+      {
+        fieldGroupClassName: 'two-columns',
+        fieldGroup: [
+          {
+            key: 'readingStatus',
+            type: 'select',
+            props: {
+              label: t('form.status.label'),
+              options: READING_STATUSES.map(s => ({
+                value: s.value,
+                label: t(`status.${s.value.replace('-', '_')}`),
+              })),
+            },
+          },
+          {
+            key: 'finishedAt',
+            type: 'input',
+            props: { label: t('form.finished_at.label'), type: 'date' },
+            expressions: { hide: "model.readingStatus !== 'read'" },
+          },
+        ],
+      },
+      {
+        key: 'rating',
+        type: 'star-rating',
+        props: { label: t('form.rating.label') },
+      },
+    ];
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

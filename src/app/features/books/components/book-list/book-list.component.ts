@@ -15,14 +15,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService, TranslocoPipe } from '@jsverse/transloco';
 import { BookService } from '../../../../core/services/book.service';
-import { Book, READING_STATUS_LABELS, SORT_OPTIONS, SortOption } from '../../../../core/models/book.model';
+import { Book, ReadingStatus, SortOption } from '../../../../core/models/book.model';
 import {
   ConfirmDialogComponent,
   ConfirmDialogData,
 } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
-import { MatDialog } from '@angular/material/dialog';
 
 function sortBooks(books: Book[], option: SortOption): Book[] {
   return [...books].sort((a, b) => {
@@ -39,6 +40,7 @@ function sortBooks(books: Book[], option: SortOption): Book[] {
   selector: 'app-book-list',
   imports: [
     RouterLink,
+    TranslocoPipe,
     MatButtonModule,
     MatChipsModule,
     MatFormFieldModule,
@@ -56,9 +58,20 @@ export class BookListComponent {
   protected readonly bookService = inject(BookService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  private readonly translocoService = inject(TranslocoService);
 
-  readonly statusLabels = READING_STATUS_LABELS;
-  readonly sortOptions = SORT_OPTIONS;
+  readonly sortOptions: { value: SortOption; labelKey: string }[] = [
+    { value: 'createdAt-desc', labelKey: 'list.sort.createdAt_desc' },
+    { value: 'title-asc',      labelKey: 'list.sort.title_asc' },
+    { value: 'author-asc',     labelKey: 'list.sort.author_asc' },
+    { value: 'publishedYear-desc', labelKey: 'list.sort.publishedYear_desc' },
+  ];
+
+  readonly statusKeys: Record<ReadingStatus, string> = {
+    'to-read': 'status.to_read',
+    reading:   'status.reading',
+    read:      'status.read',
+  };
 
   readonly searchQuery = signal('');
   readonly selectedGenre = signal('');
@@ -127,18 +140,17 @@ export class BookListComponent {
   }
 
   async deleteBook(book: Book): Promise<void> {
+    const t = (key: string, params?: object) => this.translocoService.translate(key, params);
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Supprimer le livre',
-        message: `Êtes-vous sûr de vouloir supprimer "${book.title}" de ${book.author} ?`,
-        confirmText: 'Supprimer',
-        cancelText: 'Annuler',
+        title: t('confirm.delete_title'),
+        message: t('confirm.delete_msg', { title: book.title, author: book.author }),
+        confirmText: t('confirm.delete_btn'),
+        cancelText: t('confirm.cancel'),
       } satisfies ConfirmDialogData,
       width: '400px',
     });
     const confirmed = await firstValueFrom(ref.afterClosed());
-    if (confirmed) {
-      this.bookService.delete(book.id);
-    }
+    if (confirmed) this.bookService.delete(book.id);
   }
 }

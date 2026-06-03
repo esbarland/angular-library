@@ -1,10 +1,10 @@
 <div class="page-container">
   <div class="page-header">
-    <button mat-icon-button routerLink="/books" aria-label="Retour à la liste">
+    <button mat-icon-button routerLink="/books" aria-label="Retour">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <h1 class="page-title">
-      {{ isEdit() ? 'Modifier le livre' : 'Ajouter un livre' }}
+      {{ (isEdit() ? 'form.edit_title' : 'form.add_title') | transloco }}
     </h1>
   </div>
 
@@ -13,7 +13,7 @@
       <form [formGroup]="form" (ngSubmit)="submit()">
         <formly-form
           [form]="form"
-          [fields]="fields"
+          [fields]="fields()"
           [model]="model"
           [options]="options"
         />
@@ -23,11 +23,11 @@
         <div class="form-actions">
           <button mat-stroked-button type="button" routerLink="/books">
             <mat-icon>cancel</mat-icon>
-            Annuler
+            {{ 'form.cancel' | transloco }}
           </button>
           <button mat-flat-button type="submit" [disabled]="form.invalid">
             <mat-icon>{{ isEdit() ? 'save' : 'add' }}</mat-icon>
-            {{ isEdit() ? 'Enregistrer les modifications' : 'Ajouter le livre' }}
+            {{ (isEdit() ? 'form.save' : 'form.add_submit') | transloco }}
           </button>
         </div>
       </form>

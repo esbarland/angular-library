@@ -2,13 +2,13 @@
   <header class="page-header">
     <h1 class="page-title">
       <mat-icon class="title-icon">local_library</mat-icon>
-      Ma Bibliothèque
+      {{ 'list.title' | transloco }}
       <span class="count-badge">{{ bookService.count() }}</span>
     </h1>
 
     <div class="controls-row">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
-        <mat-label>Rechercher un livre, auteur, genre…</mat-label>
+        <mat-label>{{ 'list.search' | transloco }}</mat-label>
         <input
           matInput
           [value]="searchQuery()"
@@ -24,17 +24,17 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="sort-field">
-        <mat-label>Trier par</mat-label>
+        <mat-label>{{ 'list.sort_by' | transloco }}</mat-label>
         <mat-select [value]="sortOption()" (selectionChange)="sortOption.set($event.value)">
           @for (opt of sortOptions; track opt.value) {
-            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+            <mat-option [value]="opt.value">{{ opt.labelKey | transloco }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
 
       <a mat-flat-button routerLink="/books/new" class="add-btn">
         <mat-icon>add</mat-icon>
-        Nouveau livre
+        {{ 'list.add' | transloco }}
       </a>
     </div>
 
@@ -45,7 +45,7 @@
           (change)="onGenreChange($event.value)"
           aria-label="Filtrer par genre"
         >
-          <mat-chip-option value="">Tous</mat-chip-option>
+          <mat-chip-option value="">{{ 'list.all' | transloco }}</mat-chip-option>
           @for (genre of availableGenres(); track genre) {
             <mat-chip-option [value]="genre">{{ genre }}</mat-chip-option>
           }
@@ -56,9 +56,9 @@
 
   @if (filteredBooks().length > 0) {
     <p class="results-info">
-      {{ totalCount() }} livre(s)
-      @if (searchQuery()) { pour "{{ searchQuery() }}" }
-      @if (selectedGenre()) { · {{ selectedGenre() }} }
+      {{ 'list.results' | transloco:{ count: totalCount() } }}
+      @if (searchQuery()) { {{ 'list.for_query' | transloco:{ query: searchQuery() } }} }
+      @if (selectedGenre()) { {{ 'list.genre_active' | transloco:{ genre: selectedGenre() } }} }
     </p>
 
     <div class="books-list">
@@ -81,7 +81,7 @@
               <span class="year-tag">{{ book.publishedYear }}</span>
             }
             <span class="status-badge status-{{ book.readingStatus }}">
-              {{ statusLabels[book.readingStatus] }}
+              {{ statusKeys[book.readingStatus] | transloco }}
             </span>
           </div>
 
@@ -90,10 +90,10 @@
           }
 
           <div class="row-actions" (click)="$event.stopPropagation()">
-            <button mat-icon-button (click)="editBook(book)" matTooltip="Modifier">
+            <button mat-icon-button (click)="editBook(book)" [matTooltip]="'list.edit' | transloco">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete-btn" (click)="deleteBook(book)" matTooltip="Supprimer">
+            <button mat-icon-button class="delete-btn" (click)="deleteBook(book)" [matTooltip]="'list.delete' | transloco">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -108,35 +108,35 @@
         [pageIndex]="currentPage()"
         [pageSizeOptions]="[10, 25, 50]"
         (page)="onPageChange($event)"
-        aria-label="Pagination des livres"
+        aria-label="Pagination"
       />
     }
   } @else {
     <div class="empty-state">
       <mat-icon class="empty-icon">library_books</mat-icon>
       @if (searchQuery() || selectedGenre()) {
-        <h2>Aucun résultat</h2>
-        <p>Essayez de modifier vos filtres</p>
+        <h2>{{ 'list.no_results.title' | transloco }}</h2>
+        <p>{{ 'list.no_results.msg' | transloco }}</p>
         <div class="empty-actions">
           @if (searchQuery()) {
             <button mat-stroked-button (click)="searchQuery.set('')">
               <mat-icon>clear</mat-icon>
-              Effacer la recherche
+              {{ 'list.no_results.clear_search' | transloco }}
             </button>
           }
           @if (selectedGenre()) {
             <button mat-stroked-button (click)="selectedGenre.set('')">
               <mat-icon>filter_alt_off</mat-icon>
-              Tous les genres
+              {{ 'list.no_results.all_genres' | transloco }}
             </button>
           }
         </div>
       } @else {
-        <h2>Aucun livre dans la bibliothèque</h2>
-        <p>Ajoutez votre premier livre en cliquant sur le bouton ci-dessous</p>
+        <h2>{{ 'list.empty.title' | transloco }}</h2>
+        <p>{{ 'list.empty.msg' | transloco }}</p>
         <a mat-flat-button routerLink="/books/new">
           <mat-icon>add</mat-icon>
-          Ajouter un livre
+          {{ 'list.empty.add' | transloco }}
         </a>
       }
     </div>

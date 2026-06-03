@@ -26,6 +26,13 @@ yarn-error.log*
 # Claude Code (personal overrides only)
 .claude/settings.local.json
 
+# Playwright
+playwright-report/
+test-results/
+
+# RTK
+.rtk/
+
 # IDE
 .vscode/
 .idea/
