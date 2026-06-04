@@ -1,16 +1,15 @@
 export type ReadingStatus = 'to-read' | 'reading' | 'read';
 
-export const READING_STATUS_LABELS: Record<ReadingStatus, string> = {
-  'to-read': 'À lire',
-  reading: 'En cours',
-  read: 'Lu',
-};
+export const READING_STATUS_VALUES: ReadingStatus[] = ['to-read', 'reading', 'read'];
 
-export const READING_STATUSES: { value: ReadingStatus; label: string }[] = [
-  { value: 'to-read', label: 'À lire' },
-  { value: 'reading', label: 'En cours' },
-  { value: 'read', label: 'Lu' },
-];
+/** Libellé localisé d'un statut de lecture (traduit à la compilation par $localize). */
+export function readingStatusLabel(status: ReadingStatus): string {
+  switch (status) {
+    case 'to-read': return $localize`:@@status.to_read:To read`;
+    case 'reading': return $localize`:@@status.reading:Reading`;
+    case 'read': return $localize`:@@status.read:Read`;
+  }
+}
 
 export interface Book {
   id: string;
@@ -51,9 +50,14 @@ export type BookGenre = typeof BOOK_GENRES[number];
 
 export type SortOption = 'createdAt-desc' | 'title-asc' | 'author-asc' | 'publishedYear-desc';
 
-export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: 'createdAt-desc', label: "Date d'ajout" },
-  { value: 'title-asc', label: 'Titre (A → Z)' },
-  { value: 'author-asc', label: 'Auteur (A → Z)' },
-  { value: 'publishedYear-desc', label: 'Année (récent → ancien)' },
-];
+export const SORT_VALUES: SortOption[] = ['createdAt-desc', 'title-asc', 'author-asc', 'publishedYear-desc'];
+
+/** Libellé localisé d'une option de tri (traduit à la compilation par $localize). */
+export function sortOptionLabel(option: SortOption): string {
+  switch (option) {
+    case 'createdAt-desc': return $localize`:@@sort.createdAt_desc:Date added`;
+    case 'title-asc': return $localize`:@@sort.title_asc:Title (A → Z)`;
+    case 'author-asc': return $localize`:@@sort.author_asc:Author (A → Z)`;
+    case 'publishedYear-desc': return $localize`:@@sort.publishedYear_desc:Year (newest → oldest)`;
+  }
+}

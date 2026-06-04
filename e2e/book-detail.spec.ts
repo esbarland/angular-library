@@ -1,12 +1,12 @@
-import { test, expect } from '@playwright/test';
-import { initFr, waitForList } from './helpers';
+import { test, expect, Page } from '@playwright/test';
+import { resetData, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await initFr(page);
+  await resetData(page);
   await waitForList(page);
 });
 
-async function openDetail(page: any, rowIndex = 0) {
+async function openDetail(page: Page, rowIndex = 0) {
   await page.locator('.book-row').nth(rowIndex).click();
   await expect(page).toHaveURL(/\/books\/\d+$/);
 }
@@ -76,7 +76,7 @@ test('la note est persistée après navigation et retour', async ({ page }) => {
   await page.locator('.info-row .star').nth(1).click();
   await expect(page.locator('.info-row .star.active')).toHaveCount(2);
   // Retour à la liste
-  await page.locator('button[aria-label="Retour"]').click();
+  await page.getByTestId('detail-back').click();
   await expect(page).toHaveURL('/books');
   // Re-ouvrir le même livre
   await page.locator('.book-row').nth(1).click();
@@ -94,13 +94,13 @@ test('changer la note met à jour les étoiles immédiatement', async ({ page })
 
 test('le bouton Modifier navigue vers le formulaire d\'édition', async ({ page }) => {
   await openDetail(page, 0);
-  await page.getByRole('button', { name: /Modifier/ }).click();
+  await page.getByTestId('detail-edit').click();
   await expect(page).toHaveURL(/\/books\/\d+\/edit$/);
 });
 
 test('le bouton retour ramène à la liste', async ({ page }) => {
   await openDetail(page, 0);
-  await page.locator('button[aria-label="Retour"]').click();
+  await page.getByTestId('detail-back').click();
   await expect(page).toHaveURL('/books');
   await expect(page.locator('.book-row')).toHaveCount(5);
 });

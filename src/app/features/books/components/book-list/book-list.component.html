@@ -2,20 +2,20 @@
   <header class="page-header">
     <h1 class="page-title">
       <mat-icon class="title-icon">local_library</mat-icon>
-      {{ 'list.title' | transloco }}
+      <span i18n="@@list.title">My Library</span>
       <span class="count-badge">{{ bookService.count() }}</span>
     </h1>
 
     <div class="controls-row">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
-        <mat-label>{{ 'list.search' | transloco }}</mat-label>
+        <mat-label i18n="@@list.search">Search a book, author, genre…</mat-label>
         <input
           matInput
           [value]="searchQuery()"
           (input)="searchQuery.set($any($event.target).value)"
         />
         @if (searchQuery()) {
-          <button matSuffix mat-icon-button (click)="searchQuery.set('')" aria-label="Effacer">
+          <button matSuffix mat-icon-button (click)="searchQuery.set('')" aria-label="Clear" i18n-aria-label="@@list.clear" data-testid="search-clear">
             <mat-icon>close</mat-icon>
           </button>
         } @else {
@@ -24,17 +24,17 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="sort-field">
-        <mat-label>{{ 'list.sort_by' | transloco }}</mat-label>
+        <mat-label i18n="@@list.sort_by">Sort by</mat-label>
         <mat-select [value]="sortOption()" (selectionChange)="sortOption.set($event.value)">
           @for (opt of sortOptions; track opt.value) {
-            <mat-option [value]="opt.value">{{ opt.labelKey | transloco }}</mat-option>
+            <mat-option [value]="opt.value" [attr.data-testid]="'sort-' + opt.value">{{ opt.label }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
 
       <a mat-flat-button routerLink="/books/new" class="add-btn">
         <mat-icon>add</mat-icon>
-        {{ 'list.add' | transloco }}
+        <span i18n="@@list.add">New book</span>
       </a>
     </div>
 
@@ -43,9 +43,10 @@
         <mat-chip-listbox
           [value]="selectedGenre()"
           (change)="onGenreChange($event.value)"
-          aria-label="Filtrer par genre"
+          aria-label="Filter by genre"
+          i18n-aria-label="@@list.filter_genre"
         >
-          <mat-chip-option value="">{{ 'list.all' | transloco }}</mat-chip-option>
+          <mat-chip-option value="" i18n="@@list.all" data-testid="genre-all">All</mat-chip-option>
           @for (genre of availableGenres(); track genre) {
             <mat-chip-option [value]="genre">{{ genre }}</mat-chip-option>
           }
@@ -56,9 +57,9 @@
 
   @if (filteredBooks().length > 0) {
     <p class="results-info">
-      {{ 'list.results' | transloco:{ count: totalCount() } }}
-      @if (searchQuery()) { {{ 'list.for_query' | transloco:{ query: searchQuery() } }} }
-      @if (selectedGenre()) { {{ 'list.genre_active' | transloco:{ genre: selectedGenre() } }} }
+      <span i18n="@@list.results">{{ totalCount() }} book(s)</span>
+      @if (searchQuery()) { <span i18n="@@list.for_query">for "{{ searchQuery() }}"</span> }
+      @if (selectedGenre()) { <span i18n="@@list.genre_active">· {{ selectedGenre() }}</span> }
     </p>
 
     <div class="books-list">
@@ -81,7 +82,7 @@
               <span class="year-tag">{{ book.publishedYear }}</span>
             }
             <span class="status-badge status-{{ book.readingStatus }}">
-              {{ statusKeys[book.readingStatus] | transloco }}
+              {{ statusLabel(book.readingStatus) }}
             </span>
           </div>
 
@@ -90,10 +91,10 @@
           }
 
           <div class="row-actions" (click)="$event.stopPropagation()">
-            <button mat-icon-button (click)="editBook(book)" [matTooltip]="'list.edit' | transloco">
+            <button mat-icon-button (click)="editBook(book)" [matTooltip]="editLabel">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="delete-btn" (click)="deleteBook(book)" [matTooltip]="'list.delete' | transloco">
+            <button mat-icon-button class="delete-btn" (click)="deleteBook(book)" [matTooltip]="deleteLabel">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -115,28 +116,28 @@
     <div class="empty-state">
       <mat-icon class="empty-icon">library_books</mat-icon>
       @if (searchQuery() || selectedGenre()) {
-        <h2>{{ 'list.no_results.title' | transloco }}</h2>
-        <p>{{ 'list.no_results.msg' | transloco }}</p>
+        <h2 i18n="@@list.no_results.title">No results</h2>
+        <p i18n="@@list.no_results.msg">Try adjusting your filters</p>
         <div class="empty-actions">
           @if (searchQuery()) {
             <button mat-stroked-button (click)="searchQuery.set('')">
               <mat-icon>clear</mat-icon>
-              {{ 'list.no_results.clear_search' | transloco }}
+              <span i18n="@@list.no_results.clear_search">Clear search</span>
             </button>
           }
           @if (selectedGenre()) {
             <button mat-stroked-button (click)="selectedGenre.set('')">
               <mat-icon>filter_alt_off</mat-icon>
-              {{ 'list.no_results.all_genres' | transloco }}
+              <span i18n="@@list.no_results.all_genres">All genres</span>
             </button>
           }
         </div>
       } @else {
-        <h2>{{ 'list.empty.title' | transloco }}</h2>
-        <p>{{ 'list.empty.msg' | transloco }}</p>
+        <h2 i18n="@@list.empty.title">No books in the library</h2>
+        <p i18n="@@list.empty.msg">Add your first book by clicking the button below</p>
         <a mat-flat-button routerLink="/books/new">
           <mat-icon>add</mat-icon>
-          {{ 'list.empty.add' | transloco }}
+          <span i18n="@@list.empty.add">Add a book</span>
         </a>
       }
     </div>

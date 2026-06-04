@@ -1,17 +1,15 @@
 <mat-toolbar class="app-toolbar">
-  <button mat-icon-button routerLink="/books" aria-label="Accueil">
+  <button mat-icon-button routerLink="/books" aria-label="Home" i18n-aria-label="@@app.home">
     <mat-icon>local_library</mat-icon>
   </button>
   <span class="app-title" routerLink="/books">Book Library</span>
   <span class="spacer"></span>
-  <span class="book-count">{{ 'app.count' | transloco:{ count: bookService.count() } }}</span>
-  <button mat-button (click)="toggleLang()" [matTooltip]="'app.lang_toggle' | transloco">
-    {{ 'app.lang_toggle' | transloco }}
-  </button>
+  <span class="book-count" i18n="@@app.count">{{ bookService.count() }} book(s)</span>
+  <a mat-button [href]="otherLangHref" [matTooltip]="otherLangLabel">{{ otherLangLabel }}</a>
   <button
     mat-icon-button
     (click)="toggleTheme()"
-    [matTooltip]="(isDark() ? 'app.light_mode' : 'app.dark_mode') | transloco"
+    [matTooltip]="isDark() ? lightModeLabel : darkModeLabel"
   >
     <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
   </button>

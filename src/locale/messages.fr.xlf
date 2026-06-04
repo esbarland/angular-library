@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="app.home" datatype="html">
+        <source>Home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="app.count" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ bookService.count() }}"/> book(s)</source>
+        <target><x id="INTERPOLATION" equiv-text="{{ bookService.count() }}"/> livre(s)</target>
+      </trans-unit>
+      <trans-unit id="app.light_mode" datatype="html">
+        <source>Switch to light mode</source>
+        <target>Passer en mode clair</target>
+      </trans-unit>
+      <trans-unit id="app.dark_mode" datatype="html">
+        <source>Switch to dark mode</source>
+        <target>Passer en mode sombre</target>
+      </trans-unit>
+      <trans-unit id="app.lang_other" datatype="html">
+        <source>Français</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="validation.required" datatype="html">
+        <source>This field is required</source>
+        <target>Ce champ est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="validation.min" datatype="html">
+        <source>Value too small</source>
+        <target>Valeur trop petite</target>
+      </trans-unit>
+      <trans-unit id="validation.max" datatype="html">
+        <source>Value too large</source>
+        <target>Valeur trop grande</target>
+      </trans-unit>
+      <trans-unit id="status.to_read" datatype="html">
+        <source>To read</source>
+        <target>À lire</target>
+      </trans-unit>
+      <trans-unit id="status.reading" datatype="html">
+        <source>Reading</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="status.read" datatype="html">
+        <source>Read</source>
+        <target>Lu</target>
+      </trans-unit>
+      <trans-unit id="sort.createdAt_desc" datatype="html">
+        <source>Date added</source>
+        <target>Date d&apos;ajout</target>
+      </trans-unit>
+      <trans-unit id="sort.title_asc" datatype="html">
+        <source>Title (A → Z)</source>
+        <target>Titre (A → Z)</target>
+      </trans-unit>
+      <trans-unit id="sort.author_asc" datatype="html">
+        <source>Author (A → Z)</source>
+        <target>Auteur (A → Z)</target>
+      </trans-unit>
+      <trans-unit id="sort.publishedYear_desc" datatype="html">
+        <source>Year (newest → oldest)</source>
+        <target>Année (récent → ancien)</target>
+      </trans-unit>
+      <trans-unit id="detail.back" datatype="html">
+        <source>Back</source>
+        <target>Retour</target>
+      </trans-unit>
+      <trans-unit id="detail.edit" datatype="html">
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="detail.rating" datatype="html">
+        <source>Personal rating</source>
+        <target>Note personnelle</target>
+      </trans-unit>
+      <trans-unit id="detail.not_rated" datatype="html">
+        <source>Not rated</source>
+        <target>Non noté</target>
+      </trans-unit>
+      <trans-unit id="detail.year" datatype="html">
+        <source>Publication year</source>
+        <target>Année de publication</target>
+      </trans-unit>
+      <trans-unit id="detail.isbn" datatype="html">
+        <source>ISBN</source>
+        <target>ISBN</target>
+      </trans-unit>
+      <trans-unit id="detail.finished_at" datatype="html">
+        <source>Finished on</source>
+        <target>Terminé le</target>
+      </trans-unit>
+      <trans-unit id="detail.added_at" datatype="html">
+        <source>Added on</source>
+        <target>Ajouté le</target>
+      </trans-unit>
+      <trans-unit id="detail.description" datatype="html">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="form.cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="form.save" datatype="html">
+        <source>Save changes</source>
+        <target>Enregistrer les modifications</target>
+      </trans-unit>
+      <trans-unit id="form.add_submit" datatype="html">
+        <source>Add book</source>
+        <target>Ajouter le livre</target>
+      </trans-unit>
+      <trans-unit id="form.add_title" datatype="html">
+        <source>Add a book</source>
+        <target>Ajouter un livre</target>
+      </trans-unit>
+      <trans-unit id="form.edit_title" datatype="html">
+        <source>Edit book</source>
+        <target>Modifier le livre</target>
+      </trans-unit>
+      <trans-unit id="form.year.invalid" datatype="html">
+        <source>Invalid year (between 1000 and <x id="max" equiv-text="currentYear"/>)</source>
+        <target>Année invalide (entre 1000 et <x id="max" equiv-text="currentYear"/>)</target>
+      </trans-unit>
+      <trans-unit id="form.sections.main" datatype="html">
+        <source>Main information</source>
+        <target>Informations principales</target>
+      </trans-unit>
+      <trans-unit id="form.title.label" datatype="html">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="form.title.placeholder" datatype="html">
+        <source>The book title</source>
+        <target>Le titre du livre</target>
+      </trans-unit>
+      <trans-unit id="form.title.required" datatype="html">
+        <source>Title is required</source>
+        <target>Le titre est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="form.author.label" datatype="html">
+        <source>Author</source>
+        <target>Auteur</target>
+      </trans-unit>
+      <trans-unit id="form.author.placeholder" datatype="html">
+        <source>Author&apos;s first and last name</source>
+        <target>Prénom et nom de l&apos;auteur</target>
+      </trans-unit>
+      <trans-unit id="form.author.required" datatype="html">
+        <source>Author is required</source>
+        <target>L&apos;auteur est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="form.genre.label" datatype="html">
+        <source>Genre</source>
+        <target>Genre</target>
+      </trans-unit>
+      <trans-unit id="form.genre.none" datatype="html">
+        <source>-- None --</source>
+        <target>-- Aucun --</target>
+      </trans-unit>
+      <trans-unit id="form.year.label" datatype="html">
+        <source>Publication year</source>
+        <target>Année de publication</target>
+      </trans-unit>
+      <trans-unit id="form.year.placeholder" datatype="html">
+        <source>e.g. 2024</source>
+        <target>ex : 2024</target>
+      </trans-unit>
+      <trans-unit id="form.sections.extra" datatype="html">
+        <source>Additional information</source>
+        <target>Informations complémentaires</target>
+      </trans-unit>
+      <trans-unit id="form.isbn.label" datatype="html">
+        <source>ISBN</source>
+        <target>ISBN</target>
+      </trans-unit>
+      <trans-unit id="form.isbn.placeholder" datatype="html">
+        <source>e.g. 978-2-07-036024-3</source>
+        <target>ex : 978-2-07-036024-3</target>
+      </trans-unit>
+      <trans-unit id="form.description.label" datatype="html">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="form.description.placeholder" datatype="html">
+        <source>Summary or description of the book…</source>
+        <target>Résumé ou description du livre…</target>
+      </trans-unit>
+      <trans-unit id="form.sections.tracking" datatype="html">
+        <source>Reading tracking</source>
+        <target>Suivi de lecture</target>
+      </trans-unit>
+      <trans-unit id="form.status.label" datatype="html">
+        <source>Status</source>
+        <target>Statut</target>
+      </trans-unit>
+      <trans-unit id="form.finished_at.label" datatype="html">
+        <source>End date</source>
+        <target>Date de fin</target>
+      </trans-unit>
+      <trans-unit id="form.rating.label" datatype="html">
+        <source>Personal rating</source>
+        <target>Note personnelle</target>
+      </trans-unit>
+      <trans-unit id="list.title" datatype="html">
+        <source>My Library</source>
+        <target>Ma Bibliothèque</target>
+      </trans-unit>
+      <trans-unit id="list.search" datatype="html">
+        <source>Search a book, author, genre…</source>
+        <target>Rechercher un livre, auteur, genre…</target>
+      </trans-unit>
+      <trans-unit id="list.clear" datatype="html">
+        <source>Clear</source>
+        <target>Effacer</target>
+      </trans-unit>
+      <trans-unit id="list.sort_by" datatype="html">
+        <source>Sort by</source>
+        <target>Trier par</target>
+      </trans-unit>
+      <trans-unit id="list.add" datatype="html">
+        <source>New book</source>
+        <target>Nouveau livre</target>
+      </trans-unit>
+      <trans-unit id="list.filter_genre" datatype="html">
+        <source>Filter by genre</source>
+        <target>Filtrer par genre</target>
+      </trans-unit>
+      <trans-unit id="list.all" datatype="html">
+        <source>All</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="list.results" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ totalCount() }}"/> book(s)</source>
+        <target><x id="INTERPOLATION" equiv-text="{{ totalCount() }}"/> livre(s)</target>
+      </trans-unit>
+      <trans-unit id="list.for_query" datatype="html">
+        <source>for &quot;<x id="INTERPOLATION" equiv-text="{{ searchQuery() }}"/>&quot;</source>
+        <target>pour &quot;<x id="INTERPOLATION" equiv-text="{{ searchQuery() }}"/>&quot;</target>
+      </trans-unit>
+      <trans-unit id="list.genre_active" datatype="html">
+        <source>· <x id="INTERPOLATION" equiv-text="{{ selectedGenre() }}"/></source>
+        <target>· <x id="INTERPOLATION" equiv-text="{{ selectedGenre() }}"/></target>
+      </trans-unit>
+      <trans-unit id="list.no_results.title" datatype="html">
+        <source>No results</source>
+        <target>Aucun résultat</target>
+      </trans-unit>
+      <trans-unit id="list.no_results.msg" datatype="html">
+        <source>Try adjusting your filters</source>
+        <target>Essayez de modifier vos filtres</target>
+      </trans-unit>
+      <trans-unit id="list.no_results.clear_search" datatype="html">
+        <source>Clear search</source>
+        <target>Effacer la recherche</target>
+      </trans-unit>
+      <trans-unit id="list.no_results.all_genres" datatype="html">
+        <source>All genres</source>
+        <target>Tous les genres</target>
+      </trans-unit>
+      <trans-unit id="list.empty.title" datatype="html">
+        <source>No books in the library</source>
+        <target>Aucun livre dans la bibliothèque</target>
+      </trans-unit>
+      <trans-unit id="list.empty.msg" datatype="html">
+        <source>Add your first book by clicking the button below</source>
+        <target>Ajoutez votre premier livre en cliquant sur le bouton ci-dessous</target>
+      </trans-unit>
+      <trans-unit id="list.empty.add" datatype="html">
+        <source>Add a book</source>
+        <target>Ajouter un livre</target>
+      </trans-unit>
+      <trans-unit id="list.edit" datatype="html">
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="list.delete" datatype="html">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="confirm.delete_title" datatype="html">
+        <source>Delete book</source>
+        <target>Supprimer le livre</target>
+      </trans-unit>
+      <trans-unit id="confirm.delete_msg" datatype="html">
+        <source>Are you sure you want to delete &quot;<x id="title" equiv-text="book.title"/>&quot; by <x id="author" equiv-text="book.author"/>?</source>
+        <target>Êtes-vous sûr de vouloir supprimer &quot;<x id="title" equiv-text="book.title"/>&quot; de <x id="author" equiv-text="book.author"/> ?</target>
+      </trans-unit>
+      <trans-unit id="confirm.delete_btn" datatype="html">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="confirm.cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

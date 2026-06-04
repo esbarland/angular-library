@@ -1,13 +1,13 @@
 @if (book(); as b) {
   <div class="page-container">
     <div class="page-header">
-      <button mat-icon-button routerLink="/books" aria-label="Retour">
+      <button mat-icon-button routerLink="/books" aria-label="Back" i18n-aria-label="@@detail.back" data-testid="detail-back">
         <mat-icon>arrow_back</mat-icon>
       </button>
       <span class="header-spacer"></span>
-      <button mat-stroked-button [routerLink]="['/books', b.id, 'edit']">
+      <button mat-stroked-button [routerLink]="['/books', b.id, 'edit']" data-testid="detail-edit">
         <mat-icon>edit</mat-icon>
-        {{ 'detail.edit' | transloco }}
+        <span i18n="@@detail.edit">Edit</span>
       </button>
     </div>
 
@@ -22,7 +22,7 @@
             <p class="book-author">{{ b.author }}</p>
             <div class="badges">
               <mat-chip class="status-chip status-{{ b.readingStatus }}">
-                {{ statusKeys[b.readingStatus] | transloco }}
+                {{ statusLabel(b.readingStatus) }}
               </mat-chip>
               @if (b.genre) {
                 <mat-chip class="genre-chip">{{ b.genre }}</mat-chip>
@@ -35,43 +35,43 @@
 
         <div class="info-grid">
           <div class="info-row">
-            <span class="info-label">{{ 'detail.rating' | transloco }}</span>
+            <span class="info-label" i18n="@@detail.rating">Personal rating</span>
             <app-star-rating [value]="b.rating" (valueChange)="updateRating($event)" />
             @if (!b.rating) {
-              <span class="no-rating">{{ 'detail.not_rated' | transloco }}</span>
+              <span class="no-rating" i18n="@@detail.not_rated">Not rated</span>
             }
           </div>
 
           @if (b.publishedYear) {
             <div class="info-row">
-              <span class="info-label">{{ 'detail.year' | transloco }}</span>
+              <span class="info-label" i18n="@@detail.year">Publication year</span>
               <span class="info-value">{{ b.publishedYear }}</span>
             </div>
           }
 
           @if (b.isbn) {
             <div class="info-row">
-              <span class="info-label">{{ 'detail.isbn' | transloco }}</span>
+              <span class="info-label" i18n="@@detail.isbn">ISBN</span>
               <span class="info-value isbn">{{ b.isbn }}</span>
             </div>
           }
 
           @if (b.finishedAt) {
             <div class="info-row">
-              <span class="info-label">{{ 'detail.finished_at' | transloco }}</span>
-              <span class="info-value">{{ b.finishedAt | date:'dd MMMM yyyy':'':dateLocale() }}</span>
+              <span class="info-label" i18n="@@detail.finished_at">Finished on</span>
+              <span class="info-value">{{ b.finishedAt | date:'dd MMMM yyyy' }}</span>
             </div>
           }
 
           <div class="info-row">
-            <span class="info-label">{{ 'detail.added_at' | transloco }}</span>
-            <span class="info-value">{{ b.createdAt | date:'dd MMMM yyyy':'':dateLocale() }}</span>
+            <span class="info-label" i18n="@@detail.added_at">Added on</span>
+            <span class="info-value">{{ b.createdAt | date:'dd MMMM yyyy' }}</span>
           </div>
         </div>
 
         @if (b.description) {
           <mat-divider class="divider" />
-          <h3 class="section-title">{{ 'detail.description' | transloco }}</h3>
+          <h3 class="section-title" i18n="@@detail.description">Description</h3>
           <p class="description">{{ b.description }}</p>
         }
       </mat-card-content>

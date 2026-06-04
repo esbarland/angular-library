@@ -6,10 +6,10 @@
   <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="dialogRef.close(false)">
+  <button mat-stroked-button (click)="dialogRef.close(false)" data-testid="dialog-cancel">
     {{ data.cancelText ?? 'Annuler' }}
   </button>
-  <button mat-flat-button class="danger-btn" (click)="dialogRef.close(true)">
+  <button mat-flat-button class="danger-btn" (click)="dialogRef.close(true)" data-testid="dialog-confirm">
     {{ data.confirmText ?? 'Confirmer' }}
   </button>
 </mat-dialog-actions>

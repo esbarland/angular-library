@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { initFr, waitForList } from './helpers';
+import { resetData, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await initFr(page);
+  await resetData(page);
   await waitForList(page);
 });
 
@@ -45,7 +45,7 @@ test('filtre les livres par auteur', async ({ page }) => {
 test('efface la recherche et affiche tous les livres', async ({ page }) => {
   await page.locator('.search-field input').fill('Dune');
   await expect(page.locator('.book-row')).toHaveCount(1);
-  await page.locator('button[aria-label="Effacer"]').click();
+  await page.getByTestId('search-clear').click();
   await expect(page.locator('.book-row')).toHaveCount(5);
 });
 
@@ -63,6 +63,7 @@ test('le bouton effacer depuis l\'état vide restaure la liste', async ({ page }
 });
 
 // ── Filtre par genre ───────────────────────────────────────────────────────
+// Les genres sont des données (non traduites), on peut filtrer par leur texte.
 
 test('filtre par genre Fantasy affiche 1 livre', async ({ page }) => {
   await page.locator('mat-chip-option').filter({ hasText: 'Fantasy' }).click();
@@ -78,7 +79,7 @@ test('filtre par genre Fiction affiche 2 livres', async ({ page }) => {
 test('chip "Tous" réinitialise le filtre genre', async ({ page }) => {
   await page.locator('mat-chip-option').filter({ hasText: 'Fantasy' }).click();
   await expect(page.locator('.book-row')).toHaveCount(1);
-  await page.locator('mat-chip-option').filter({ hasText: 'Tous' }).click();
+  await page.getByTestId('genre-all').click();
   await expect(page.locator('.book-row')).toHaveCount(5);
 });
 
@@ -93,7 +94,7 @@ test('combine recherche et filtre genre', async ({ page }) => {
 
 test('tri par titre A→Z réordonne la liste', async ({ page }) => {
   await page.locator('.sort-field mat-select').click();
-  await page.locator('mat-option').filter({ hasText: 'Titre (A → Z)' }).click();
+  await page.getByTestId('sort-title-asc').click();
   const titles = await page.locator('.row-title').allTextContents();
   const sorted = [...titles].sort((a, b) => a.localeCompare(b, 'fr'));
   expect(titles).toEqual(sorted);
@@ -101,7 +102,7 @@ test('tri par titre A→Z réordonne la liste', async ({ page }) => {
 
 test('tri par auteur A→Z réordonne la liste', async ({ page }) => {
   await page.locator('.sort-field mat-select').click();
-  await page.locator('mat-option').filter({ hasText: 'Auteur (A → Z)' }).click();
+  await page.getByTestId('sort-author-asc').click();
   const authors = await page.locator('.row-author').allTextContents();
   const sorted = [...authors].sort((a, b) => a.localeCompare(b, 'fr'));
   expect(authors).toEqual(sorted);
@@ -137,7 +138,7 @@ test('supprimer un livre avec confirmation le retire de la liste', async ({ page
   await page.locator('.book-row').first().locator('.delete-btn').click();
   const dialog = page.locator('mat-dialog-container');
   await expect(dialog).toBeVisible();
-  await dialog.locator('button.danger-btn').click();
+  await page.getByTestId('dialog-confirm').click();
   await expect(page.locator('.book-row')).toHaveCount(4);
   const remaining = await page.locator('.row-title').allTextContents();
   expect(remaining).not.toContain(firstTitle);
@@ -147,7 +148,7 @@ test('annuler la suppression conserve le livre dans la liste', async ({ page }) 
   await page.locator('.book-row').first().locator('.delete-btn').click();
   const dialog = page.locator('mat-dialog-container');
   await expect(dialog).toBeVisible();
-  await dialog.locator('button').filter({ hasText: 'Annuler' }).click();
+  await page.getByTestId('dialog-cancel').click();
   await expect(page.locator('.book-row')).toHaveCount(5);
 });
 

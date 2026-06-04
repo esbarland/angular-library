@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="app.home" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="app.count" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ bookService.count() }}"/> book(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="app.light_mode" datatype="html">
+        <source>Switch to light mode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="app.dark_mode" datatype="html">
+        <source>Switch to dark mode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="app.lang_other" datatype="html">
+        <source>Français</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="validation.required" datatype="html">
+        <source>This field is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.config.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="validation.min" datatype="html">
+        <source>Value too small</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.config.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="validation.max" datatype="html">
+        <source>Value too large</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.config.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.to_read" datatype="html">
+        <source>To read</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.reading" datatype="html">
+        <source>Reading</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.read" datatype="html">
+        <source>Read</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sort.createdAt_desc" datatype="html">
+        <source>Date added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sort.title_asc" datatype="html">
+        <source>Title (A → Z)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sort.author_asc" datatype="html">
+        <source>Author (A → Z)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sort.publishedYear_desc" datatype="html">
+        <source>Year (newest → oldest)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/models/book.model.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.back" datatype="html">
+        <source>Back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.edit" datatype="html">
+        <source>Edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.rating" datatype="html">
+        <source>Personal rating</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.not_rated" datatype="html">
+        <source>Not rated</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">41,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.year" datatype="html">
+        <source>Publication year</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.isbn" datatype="html">
+        <source>ISBN</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.finished_at" datatype="html">
+        <source>Finished on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.added_at" datatype="html">
+        <source>Added on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.description" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-detail/book-detail.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.save" datatype="html">
+        <source>Save changes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.add_submit" datatype="html">
+        <source>Add book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.add_title" datatype="html">
+        <source>Add a book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.edit_title" datatype="html">
+        <source>Edit book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.year.invalid" datatype="html">
+        <source>Invalid year (between 1000 and <x id="max" equiv-text="currentYear"/>)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.sections.main" datatype="html">
+        <source>Main information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.title.label" datatype="html">
+        <source>Title</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.title.placeholder" datatype="html">
+        <source>The book title</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.title.required" datatype="html">
+        <source>Title is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.author.label" datatype="html">
+        <source>Author</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.author.placeholder" datatype="html">
+        <source>Author&apos;s first and last name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.author.required" datatype="html">
+        <source>Author is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.genre.label" datatype="html">
+        <source>Genre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.genre.none" datatype="html">
+        <source>-- None --</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.year.label" datatype="html">
+        <source>Publication year</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.year.placeholder" datatype="html">
+        <source>e.g. 2024</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.sections.extra" datatype="html">
+        <source>Additional information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.isbn.label" datatype="html">
+        <source>ISBN</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.isbn.placeholder" datatype="html">
+        <source>e.g. 978-2-07-036024-3</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.description.label" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.description.placeholder" datatype="html">
+        <source>Summary or description of the book…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.sections.tracking" datatype="html">
+        <source>Reading tracking</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.status.label" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.finished_at.label" datatype="html">
+        <source>End date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="form.rating.label" datatype="html">
+        <source>Personal rating</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-form/book-form.component.ts</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.title" datatype="html">
+        <source>My Library</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.search" datatype="html">
+        <source>Search a book, author, genre…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.clear" datatype="html">
+        <source>Clear</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.sort_by" datatype="html">
+        <source>Sort by</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.add" datatype="html">
+        <source>New book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">37,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.filter_genre" datatype="html">
+        <source>Filter by genre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.all" datatype="html">
+        <source>All</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.results" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ totalCount() }}"/> book(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.for_query" datatype="html">
+        <source>for &quot;<x id="INTERPOLATION" equiv-text="{{ searchQuery() }}"/>&quot;</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.genre_active" datatype="html">
+        <source>· <x id="INTERPOLATION" equiv-text="{{ selectedGenre() }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.no_results.title" datatype="html">
+        <source>No results</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">119,120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.no_results.msg" datatype="html">
+        <source>Try adjusting your filters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.no_results.clear_search" datatype="html">
+        <source>Clear search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">125,128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.no_results.all_genres" datatype="html">
+        <source>All genres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">131,133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.empty.title" datatype="html">
+        <source>No books in the library</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">136,137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.empty.msg" datatype="html">
+        <source>Add your first book by clicking the button below</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">137,138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.empty.add" datatype="html">
+        <source>Add a book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.html</context>
+          <context context-type="linenumber">140,143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.edit" datatype="html">
+        <source>Edit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.delete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirm.delete_title" datatype="html">
+        <source>Delete book</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirm.delete_msg" datatype="html">
+        <source>Are you sure you want to delete &quot;<x id="title" equiv-text="book.title"/>&quot; by <x id="author" equiv-text="book.author"/>?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirm.delete_btn" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirm.cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/books/components/book-list/book-list.component.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -4,7 +4,7 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
     <h1 class="page-title">
-      {{ (isEdit() ? 'form.edit_title' : 'form.add_title') | transloco }}
+      {{ isEdit() ? editTitle : addTitle }}
     </h1>
   </div>
 
@@ -21,13 +21,13 @@
         <div class="section-sep"></div>
 
         <div class="form-actions">
-          <button mat-stroked-button type="button" routerLink="/books">
+          <button mat-stroked-button type="button" routerLink="/books" data-testid="form-cancel">
             <mat-icon>cancel</mat-icon>
-            {{ 'form.cancel' | transloco }}
+            {{ cancelLabel }}
           </button>
           <button mat-flat-button type="submit" [disabled]="form.invalid">
             <mat-icon>{{ isEdit() ? 'save' : 'add' }}</mat-icon>
-            {{ (isEdit() ? 'form.save' : 'form.add_submit') | transloco }}
+            {{ isEdit() ? saveLabel : addSubmitLabel }}
           </button>
         </div>
       </form>
