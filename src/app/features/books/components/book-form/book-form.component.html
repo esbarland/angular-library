@@ -11,12 +11,14 @@
   <mat-card appearance="outlined" class="form-card">
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <formly-form
-          [form]="form"
-          [fields]="fields()"
-          [model]="model"
-          [options]="options"
-        />
+        @if (ready()) {
+          <formly-form
+            [form]="form"
+            [fields]="fields()"
+            [model]="model"
+            [options]="options"
+          />
+        }
 
         <div class="section-sep"></div>
 

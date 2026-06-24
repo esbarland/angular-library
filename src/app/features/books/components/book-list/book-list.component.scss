@@ -168,17 +168,17 @@
   font-weight: 500;
   white-space: nowrap;
 
-  &.status-to-read {
+  &.status-TO_READ {
     background-color: var(--mat-sys-surface-variant);
     color: var(--mat-sys-on-surface-variant);
   }
 
-  &.status-reading {
+  &.status-READING {
     background-color: var(--mat-sys-secondary-container);
     color: var(--mat-sys-on-secondary-container);
   }
 
-  &.status-read {
+  &.status-READ {
     background-color: var(--mat-sys-primary-container);
     color: var(--mat-sys-on-primary-container);
   }

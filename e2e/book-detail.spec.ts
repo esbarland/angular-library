@@ -1,8 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
-import { resetData, waitForList } from './helpers';
+import { mockApi, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await resetData(page);
+  await mockApi(page);
   await waitForList(page);
 });
 

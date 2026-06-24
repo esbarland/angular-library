@@ -1,12 +1,14 @@
 import {
   Component,
+  DestroyRef,
   computed,
   effect,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,8 +21,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookService } from '../../../../core/services/book.service';
 import {
   Book,
+  BookCategory,
   SortOption,
   SORT_VALUES,
+  bookCategoryLabel,
   readingStatusLabel,
   sortOptionLabel,
 } from '../../../../core/models/book.model';
@@ -33,10 +37,10 @@ import { StarRatingComponent } from '../../../../shared/components/star-rating/s
 function sortBooks(books: Book[], option: SortOption): Book[] {
   return [...books].sort((a, b) => {
     switch (option) {
-      case 'title-asc': return a.title.localeCompare(b.title, 'fr');
+      case 'name-asc': return a.name.localeCompare(b.name, 'fr');
       case 'author-asc': return a.author.localeCompare(b.author, 'fr');
-      case 'publishedYear-desc': return (b.publishedYear ?? 0) - (a.publishedYear ?? 0);
-      case 'createdAt-desc': return b.createdAt.getTime() - a.createdAt.getTime();
+      case 'year-desc': return (b.year ?? 0) - (a.year ?? 0);
+      case 'id-desc': return b.id - a.id;
     }
   });
 }
@@ -62,42 +66,37 @@ export class BookListComponent {
   protected readonly bookService = inject(BookService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly sortOptions = SORT_VALUES.map(value => ({ value, label: sortOptionLabel(value) }));
   readonly statusLabel = readingStatusLabel;
+  readonly categoryLabel = bookCategoryLabel;
 
   // Tooltips (expressions → $localize en TS).
   readonly editLabel = $localize`:@@list.edit:Edit`;
   readonly deleteLabel = $localize`:@@list.delete:Delete`;
 
   readonly searchQuery = signal('');
-  readonly selectedGenre = signal('');
-  readonly sortOption = signal<SortOption>('createdAt-desc');
+  readonly selectedCategory = signal<BookCategory | ''>('');
+  readonly sortOption = signal<SortOption>('id-desc');
   readonly currentPage = signal(0);
   readonly pageSize = signal(12);
 
-  readonly availableGenres = computed(() => {
-    const genres = new Set(this.bookService.books().map(b => b.genre).filter(Boolean));
-    return Array.from(genres).sort((a, b) => a.localeCompare(b, 'fr'));
-  });
-
-  private readonly searchFilteredBooks = computed(() => {
-    const q = this.searchQuery().trim().toLowerCase();
-    if (!q) return this.bookService.books();
-    return this.bookService.books().filter(
-      book =>
-        book.title.toLowerCase().includes(q) ||
-        book.author.toLowerCase().includes(q) ||
-        book.genre.toLowerCase().includes(q) ||
-        book.description.toLowerCase().includes(q)
+  readonly availableCategories = computed(() => {
+    const categories = new Set(
+      this.bookService.books().map(b => b.category).filter((c): c is BookCategory => !!c)
+    );
+    return Array.from(categories).sort((a, b) =>
+      bookCategoryLabel(a).localeCompare(bookCategoryLabel(b), 'fr')
     );
   });
 
+  // Recherche côté serveur : le filtre catégorie + le tri restent côté client.
   readonly filteredBooks = computed(() => {
-    const genre = this.selectedGenre();
-    const books = genre
-      ? this.searchFilteredBooks().filter(b => b.genre === genre)
-      : this.searchFilteredBooks();
+    const category = this.selectedCategory();
+    const books = category
+      ? this.bookService.books().filter(b => b.category === category)
+      : this.bookService.books();
     return sortBooks(books, this.sortOption());
   });
 
@@ -111,12 +110,23 @@ export class BookListComponent {
   readonly showPaginator = computed(() => this.totalCount() > this.pageSize());
 
   constructor() {
+    // Réinitialise la pagination quand les filtres changent.
     effect(() => {
       this.searchQuery();
-      this.selectedGenre();
+      this.selectedCategory();
       this.sortOption();
       this.currentPage.set(0);
     });
+
+    // Recherche serveur débouncée (émet aussi une 1re fois au démarrage avec '').
+    toObservable(this.searchQuery)
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(query => this.bookService.load(query)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   onPageChange(event: PageEvent): void {
@@ -124,8 +134,8 @@ export class BookListComponent {
     this.pageSize.set(event.pageSize);
   }
 
-  onGenreChange(value: string | undefined): void {
-    this.selectedGenre.set(value ?? '');
+  onCategoryChange(value: BookCategory | '' | undefined): void {
+    this.selectedCategory.set(value ?? '');
   }
 
   viewBook(book: Book): void {
@@ -136,17 +146,24 @@ export class BookListComponent {
     this.router.navigate(['/books', book.id, 'edit']);
   }
 
-  async deleteBook(book: Book): Promise<void> {
+  deleteBook(book: Book): void {
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: $localize`:@@confirm.delete_title:Delete book`,
-        message: $localize`:@@confirm.delete_msg:Are you sure you want to delete "${book.title}:title:" by ${book.author}:author:?`,
+        message: $localize`:@@confirm.delete_msg:Are you sure you want to delete "${book.name}:title:" by ${book.author}:author:?`,
         confirmText: $localize`:@@confirm.delete_btn:Delete`,
         cancelText: $localize`:@@confirm.cancel:Cancel`,
       } satisfies ConfirmDialogData,
       width: '400px',
     });
-    const confirmed = await firstValueFrom(ref.afterClosed());
-    if (confirmed) this.bookService.delete(book.id);
+    ref.afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.bookService.delete(book.id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+        }
+      });
   }
 }

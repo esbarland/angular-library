@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { resetData, waitForList } from './helpers';
+import { mockApi, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await resetData(page);
+  await mockApi(page);
 });
 
 // ── Compteur de livres ─────────────────────────────────────────────────────
@@ -24,7 +24,9 @@ test('le compteur se met à jour après ajout d\'un livre', async ({ page }) => 
   await waitForList(page);
   await page.locator('.add-btn').click();
   await page.getByTestId('field-title').fill('Nouveau Livre');
-  await page.getByTestId('field-author').fill('Auteur');
+  await page.getByTestId('field-isbn').fill('978-0-000-00000-0');
+  await page.getByTestId('field-pages').fill('250');
+  await page.getByTestId('field-year').fill('2020');
   await page.locator('button[type="submit"]').click();
   await expect(page).toHaveURL('/books');
   await expect(page.locator('.book-count')).toContainText('6');

@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,14 +8,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BookService } from '../../../../core/services/book.service';
-import { Book, readingStatusLabel } from '../../../../core/models/book.model';
+import { Book, bookCategoryLabel, readingStatusLabel } from '../../../../core/models/book.model';
 import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
 
 @Component({
   selector: 'app-book-detail',
   imports: [
     RouterLink,
-    DatePipe,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
@@ -31,24 +30,42 @@ export class BookDetailComponent implements OnInit {
   private readonly bookService = inject(BookService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly statusLabel = readingStatusLabel;
+  readonly categoryLabel = bookCategoryLabel;
   readonly book = signal<Book | null>(null);
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    const found = id ? this.bookService.getById(id) : undefined;
-    if (!found) {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
       this.router.navigate(['/books']);
       return;
     }
-    this.book.set(found);
+    this.bookService.getById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: book => this.book.set(book),
+        error: () => this.router.navigate(['/books']),
+      });
   }
 
   updateRating(rating: number | null): void {
     const b = this.book();
     if (!b) return;
-    const { id, createdAt, updatedAt, ...data } = b;
-    this.book.set(this.bookService.update(id, { ...data, rating }));
+
+    // L'endpoint /rating exige une note 1–5 ; pour l'effacer, on fait un PUT complet.
+    const request$ = rating
+      ? this.bookService.rate(b.id, rating)
+      : this.bookService.update(b.id, { ...this.toInput(b), rating: null });
+
+    request$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(updated => this.book.set(updated));
+  }
+
+  private toInput(b: Book) {
+    const { id, ...input } = b;
+    return input;
   }
 }

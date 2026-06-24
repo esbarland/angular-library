@@ -1,4 +1,5 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,23 +8,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import {
-  BOOK_GENRES,
-  BookFormData,
+  BOOK_CATEGORIES,
+  BookCategory,
+  BookInput,
   READING_STATUS_VALUES,
   ReadingStatus,
+  bookCategoryLabel,
   readingStatusLabel,
 } from '../../../../core/models/book.model';
 import { BookService } from '../../../../core/services/book.service';
 
 interface BookFormModel {
-  title: string;
+  name: string;
   author: string;
   isbn: string;
-  publishedYear: number | null;
-  genre: string;
+  pages: number | null;
+  year: number | null;
   description: string;
-  readingStatus: ReadingStatus;
-  finishedAt: string;
+  category: BookCategory | '';
+  status: ReadingStatus;
   rating: number | null;
 }
 
@@ -45,9 +48,13 @@ export class BookFormComponent implements OnInit {
   private readonly bookService = inject(BookService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
-  readonly bookId = signal<string | null>(null);
+  readonly bookId = signal<number | null>(null);
   readonly isEdit = computed(() => this.bookId() !== null);
+  // En édition, on n'affiche le formulaire qu'une fois le modèle chargé : Formly
+  // initialise ses contrôles à partir du modèle au premier rendu.
+  readonly ready = signal(true);
 
   // Libellés des boutons (traduits à la compilation).
   readonly cancelLabel = $localize`:@@form.cancel:Cancel`;
@@ -59,14 +66,14 @@ export class BookFormComponent implements OnInit {
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   model: BookFormModel = {
-    title: '',
+    name: '',
     author: '',
     isbn: '',
-    publishedYear: null,
-    genre: '',
+    pages: null,
+    year: null,
     description: '',
-    readingStatus: 'to-read',
-    finishedAt: '',
+    category: '',
+    status: 'TO_READ',
     rating: null,
   };
 
@@ -80,7 +87,7 @@ export class BookFormComponent implements OnInit {
     return [
       { template: `<h3 class="section-title">${$localize`:@@form.sections.main:Main information`}</h3>` },
       {
-        key: 'title',
+        key: 'name',
         type: 'input',
         props: {
           label: $localize`:@@form.title.label:Title`,
@@ -96,49 +103,79 @@ export class BookFormComponent implements OnInit {
         props: {
           label: $localize`:@@form.author.label:Author`,
           placeholder: $localize`:@@form.author.placeholder:Author's first and last name`,
-          required: true,
           attributes: { 'data-testid': 'field-author' },
         },
-        validation: { messages: { required: $localize`:@@form.author.required:Author is required` } },
       },
       {
         fieldGroupClassName: 'two-columns',
         fieldGroup: [
           {
-            key: 'genre',
+            key: 'category',
             type: 'select',
             props: {
-              label: $localize`:@@form.genre.label:Genre`,
+              label: $localize`:@@form.category.label:Category`,
               attributes: { 'data-testid': 'field-genre' },
               options: [
-                { value: '', label: $localize`:@@form.genre.none:-- None --` },
-                ...BOOK_GENRES.map(g => ({ value: g, label: g })),
+                { value: '', label: $localize`:@@form.category.none:-- None --` },
+                ...BOOK_CATEGORIES.map(c => ({ value: c, label: bookCategoryLabel(c) })),
               ],
             },
           },
           {
-            key: 'publishedYear',
+            key: 'year',
             type: 'input',
             props: {
               label: $localize`:@@form.year.label:Publication year`,
               placeholder: $localize`:@@form.year.placeholder:e.g. 2024`,
               type: 'number',
+              required: true,
               attributes: { 'data-testid': 'field-year' },
             },
             validators: { validation: [Validators.min(1000), Validators.max(currentYear)] },
-            validation: { messages: { min: yearInvalid, max: yearInvalid } },
+            validation: {
+              messages: {
+                required: $localize`:@@form.year.required:Year is required`,
+                min: yearInvalid,
+                max: yearInvalid,
+              },
+            },
           },
         ],
       },
       { template: `<div class="section-sep"></div><h3 class="section-title">${$localize`:@@form.sections.extra:Additional information`}</h3>` },
       {
-        key: 'isbn',
-        type: 'input',
-        props: {
-          label: $localize`:@@form.isbn.label:ISBN`,
-          placeholder: $localize`:@@form.isbn.placeholder:e.g. 978-2-07-036024-3`,
-          attributes: { 'data-testid': 'field-isbn' },
-        },
+        fieldGroupClassName: 'two-columns',
+        fieldGroup: [
+          {
+            key: 'isbn',
+            type: 'input',
+            props: {
+              label: $localize`:@@form.isbn.label:ISBN`,
+              placeholder: $localize`:@@form.isbn.placeholder:e.g. 978-2-07-036024-3`,
+              required: true,
+              attributes: { 'data-testid': 'field-isbn' },
+            },
+            validation: { messages: { required: $localize`:@@form.isbn.required:ISBN is required` } },
+          },
+          {
+            key: 'pages',
+            type: 'input',
+            props: {
+              label: $localize`:@@form.pages.label:Number of pages`,
+              placeholder: $localize`:@@form.pages.placeholder:e.g. 320`,
+              type: 'number',
+              required: true,
+              attributes: { 'data-testid': 'field-pages' },
+            },
+            validators: { validation: [Validators.min(1)] },
+            validation: {
+              messages: {
+                required: $localize`:@@form.pages.required:Number of pages is required`,
+                min: $localize`:@@form.pages.invalid:Invalid number of pages`,
+              },
+            },
+          },
+        ],
       },
       {
         key: 'description',
@@ -152,24 +189,13 @@ export class BookFormComponent implements OnInit {
       },
       { template: `<div class="section-sep"></div><h3 class="section-title">${$localize`:@@form.sections.tracking:Reading tracking`}</h3>` },
       {
-        fieldGroupClassName: 'two-columns',
-        fieldGroup: [
-          {
-            key: 'readingStatus',
-            type: 'select',
-            props: {
-              label: $localize`:@@form.status.label:Status`,
-              attributes: { 'data-testid': 'field-status' },
-              options: READING_STATUS_VALUES.map(value => ({ value, label: readingStatusLabel(value) })),
-            },
-          },
-          {
-            key: 'finishedAt',
-            type: 'input',
-            props: { label: $localize`:@@form.finished_at.label:End date`, type: 'date' },
-            expressions: { hide: "model.readingStatus !== 'read'" },
-          },
-        ],
+        key: 'status',
+        type: 'select',
+        props: {
+          label: $localize`:@@form.status.label:Status`,
+          attributes: { 'data-testid': 'field-status' },
+          options: READING_STATUS_VALUES.map(value => ({ value, label: readingStatusLabel(value) })),
+        },
       },
       {
         key: 'rating',
@@ -180,27 +206,30 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     if (!id) return;
 
-    const book = this.bookService.getById(id);
-    if (!book) {
-      this.router.navigate(['/books']);
-      return;
-    }
-
-    this.bookId.set(id);
-    this.model = {
-      title: book.title,
-      author: book.author,
-      isbn: book.isbn ?? '',
-      publishedYear: book.publishedYear,
-      genre: book.genre ?? '',
-      description: book.description ?? '',
-      readingStatus: book.readingStatus,
-      finishedAt: book.finishedAt ? book.finishedAt.toISOString().split('T')[0] : '',
-      rating: book.rating,
-    };
+    this.ready.set(false);
+    this.bookService.getById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: book => {
+          this.bookId.set(id);
+          this.model = {
+            name: book.name,
+            author: book.author ?? '',
+            isbn: book.isbn,
+            pages: book.pages,
+            year: book.year,
+            description: book.description ?? '',
+            category: book.category ?? '',
+            status: book.status,
+            rating: book.rating,
+          };
+          this.ready.set(true);
+        },
+        error: () => this.router.navigate(['/books']),
+      });
   }
 
   submit(): void {
@@ -210,25 +239,25 @@ export class BookFormComponent implements OnInit {
     }
 
     const m = this.model;
-    const data: BookFormData = {
-      title: m.title,
+    const data: BookInput = {
+      name: m.name,
       author: m.author,
       isbn: m.isbn,
-      publishedYear: m.publishedYear,
-      genre: m.genre,
+      pages: m.pages ?? 0,
+      year: m.year ?? 0,
       description: m.description,
-      readingStatus: m.readingStatus,
-      finishedAt: m.finishedAt ? new Date(m.finishedAt + 'T00:00:00') : null,
+      category: m.category || null,
+      status: m.status,
       rating: m.rating,
     };
 
     const id = this.bookId();
-    if (id) {
-      this.bookService.update(id, data);
-    } else {
-      this.bookService.create(data);
-    }
+    const request$ = id
+      ? this.bookService.update(id, data)
+      : this.bookService.create(data);
 
-    this.router.navigate(['/books']);
+    request$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.router.navigate(['/books']));
   }
 }

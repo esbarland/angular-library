@@ -1,4 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { PreloadAllModules, provideRouter, withPreloading, withViewTransitions } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
@@ -8,6 +9,7 @@ import { FormlyFieldStarRatingComponent } from './shared/components/formly-star-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
+    provideHttpClient(withFetch()),
     provideRouter(routes, withPreloading(PreloadAllModules), withViewTransitions()),
     importProvidersFrom(
       FormlyModule.forRoot({

@@ -1,8 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
-import { resetData, waitForList } from './helpers';
+import { mockApi, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await resetData(page);
+  await mockApi(page);
 });
 
 async function fillTitle(page: Page, value: string) {
@@ -11,16 +11,23 @@ async function fillTitle(page: Page, value: string) {
 async function fillAuthor(page: Page, value: string) {
   await page.getByTestId('field-author').fill(value);
 }
-async function selectGenre(page: Page, genre: string) {
-  await page.getByTestId('field-genre').click();
-  // Les genres sont des données (non traduites).
-  await page.locator('mat-option').filter({ hasText: genre }).click();
+async function fillRequired(page: Page) {
+  await page.getByTestId('field-isbn').fill('978-0-000-00000-0');
+  await page.getByTestId('field-pages').fill('250');
+  await page.getByTestId('field-year').fill('2020');
 }
-async function selectStatus(page: Page, label: string) {
+// Sélection par index d'option (ordre des énumérations) → indépendant de la locale servie.
+const CATEGORY_ORDER = ['NOVEL', 'FANTASY', 'SCIENCE_FICTION', 'THRILLER', 'CRIME', 'HORROR', 'BIOGRAPHY', 'HISTORY', 'POETRY', 'CHILDREN'];
+const STATUS_ORDER = ['TO_READ', 'READING', 'READ'];
+
+async function selectCategory(page: Page, value: string) {
+  await page.getByTestId('field-genre').click();
+  // 1re option = « -- None -- », puis les catégories dans l'ordre de BOOK_CATEGORIES.
+  await page.locator('mat-option').nth(CATEGORY_ORDER.indexOf(value) + 1).click();
+}
+async function selectStatus(page: Page, value: string) {
   await page.getByTestId('field-status').click();
-  // Libellés dans la locale servie (anglais par défaut) — correspondance exacte
-  // car "Read" est une sous-chaîne de "To read" et "Reading".
-  await page.getByRole('option', { name: label, exact: true }).click();
+  await page.locator('mat-option').nth(STATUS_ORDER.indexOf(value)).click();
 }
 async function submit(page: Page) {
   await page.locator('button[type="submit"]').click();
@@ -37,7 +44,7 @@ test('accède au formulaire d\'ajout via /books/new', async ({ page }) => {
 test('crée un livre avec les champs obligatoires', async ({ page }) => {
   await page.goto('/books/new');
   await fillTitle(page, 'Mon Nouveau Livre');
-  await fillAuthor(page, 'Mon Auteur Test');
+  await fillRequired(page);
   await submit(page);
   await expect(page).toHaveURL('/books');
   await expect(page.locator('.row-title').filter({ hasText: 'Mon Nouveau Livre' })).toBeVisible();
@@ -47,12 +54,12 @@ test('crée un livre avec tous les champs remplis', async ({ page }) => {
   await page.goto('/books/new');
   await fillTitle(page, 'Livre Complet');
   await fillAuthor(page, 'Auteur Complet');
-  await selectGenre(page, 'Fantasy');
+  await selectCategory(page, 'FANTASY');
   await page.getByTestId('field-year').fill('2020');
   await page.getByTestId('field-isbn').fill('978-0-000-00000-0');
+  await page.getByTestId('field-pages').fill('420');
   await page.getByTestId('field-description').fill('Une belle description');
-  await selectStatus(page, 'Read');
-  await page.locator('input[type="date"]').fill('2023-06-15');
+  await selectStatus(page, 'READ');
   await page.locator('.formly-star-wrap .star').nth(3).click();
   await submit(page);
   await expect(page).toHaveURL('/books');
@@ -63,13 +70,23 @@ test('crée un livre avec tous les champs remplis', async ({ page }) => {
 
 test('le titre est obligatoire — le submit est désactivé', async ({ page }) => {
   await page.goto('/books/new');
-  await fillAuthor(page, 'Auteur');
+  await fillRequired(page);
   await expect(page.locator('button[type="submit"]')).toBeDisabled();
 });
 
-test('l\'auteur est obligatoire — le submit est désactivé', async ({ page }) => {
+test('l\'ISBN est obligatoire — le submit est désactivé', async ({ page }) => {
   await page.goto('/books/new');
   await fillTitle(page, 'Titre');
+  await page.getByTestId('field-pages').fill('250');
+  await page.getByTestId('field-year').fill('2020');
+  await expect(page.locator('button[type="submit"]')).toBeDisabled();
+});
+
+test('le nombre de pages est obligatoire — le submit est désactivé', async ({ page }) => {
+  await page.goto('/books/new');
+  await fillTitle(page, 'Titre');
+  await page.getByTestId('field-isbn').fill('978-0-000-00000-0');
+  await page.getByTestId('field-year').fill('2020');
   await expect(page.locator('button[type="submit"]')).toBeDisabled();
 });
 
@@ -84,31 +101,10 @@ test('affiche une erreur si le titre est touché puis vidé', async ({ page }) =
 test('affiche une erreur si l\'année est invalide', async ({ page }) => {
   await page.goto('/books/new');
   await fillTitle(page, 'Titre');
-  await fillAuthor(page, 'Auteur');
+  await fillRequired(page);
   await page.getByTestId('field-year').fill('999');
   await page.getByTestId('field-year').blur();
   await expect(page.locator('mat-error')).toBeVisible();
-});
-
-// ── Champ conditionnel finishedAt ──────────────────────────────────────────
-
-test('le champ date de fin est caché par défaut (statut À lire)', async ({ page }) => {
-  await page.goto('/books/new');
-  await expect(page.locator('input[type="date"]')).toBeHidden();
-});
-
-test('le champ date de fin apparaît quand le statut est Lu', async ({ page }) => {
-  await page.goto('/books/new');
-  await selectStatus(page, 'Read');
-  await expect(page.locator('input[type="date"]')).toBeVisible();
-});
-
-test('le champ date de fin disparaît si on rechange le statut', async ({ page }) => {
-  await page.goto('/books/new');
-  await selectStatus(page, 'Read');
-  await expect(page.locator('input[type="date"]')).toBeVisible();
-  await selectStatus(page, 'Reading');
-  await expect(page.locator('input[type="date"]')).toBeHidden();
 });
 
 // ── Note étoiles dans le formulaire ───────────────────────────────────────

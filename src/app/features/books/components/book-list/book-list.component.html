@@ -8,7 +8,7 @@
 
     <div class="controls-row">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
-        <mat-label i18n="@@list.search">Search a book, author, genre…</mat-label>
+        <mat-label i18n="@@list.search">Search a book, author, category…</mat-label>
         <input
           matInput
           [value]="searchQuery()"
@@ -38,17 +38,17 @@
       </a>
     </div>
 
-    @if (availableGenres().length > 0) {
+    @if (availableCategories().length > 0) {
       <div class="genre-filters">
         <mat-chip-listbox
-          [value]="selectedGenre()"
-          (change)="onGenreChange($event.value)"
-          aria-label="Filter by genre"
-          i18n-aria-label="@@list.filter_genre"
+          [value]="selectedCategory()"
+          (change)="onCategoryChange($event.value)"
+          aria-label="Filter by category"
+          i18n-aria-label="@@list.filter_category"
         >
           <mat-chip-option value="" i18n="@@list.all" data-testid="genre-all">All</mat-chip-option>
-          @for (genre of availableGenres(); track genre) {
-            <mat-chip-option [value]="genre">{{ genre }}</mat-chip-option>
+          @for (category of availableCategories(); track category) {
+            <mat-chip-option [value]="category" [attr.data-testid]="'category-' + category">{{ categoryLabel(category) }}</mat-chip-option>
           }
         </mat-chip-listbox>
       </div>
@@ -59,7 +59,7 @@
     <p class="results-info">
       <span i18n="@@list.results">{{ totalCount() }} book(s)</span>
       @if (searchQuery()) { <span i18n="@@list.for_query">for "{{ searchQuery() }}"</span> }
-      @if (selectedGenre()) { <span i18n="@@list.genre_active">· {{ selectedGenre() }}</span> }
+      @if (selectedCategory()) { <span i18n="@@list.category_active">· {{ categoryLabel($any(selectedCategory())) }}</span> }
     </p>
 
     <div class="books-list">
@@ -70,19 +70,19 @@
           </div>
 
           <div class="row-main">
-            <span class="row-title">{{ book.title }}</span>
+            <span class="row-title">{{ book.name }}</span>
             <span class="row-author">{{ book.author }}</span>
           </div>
 
           <div class="row-badges">
-            @if (book.genre) {
-              <span class="genre-tag">{{ book.genre }}</span>
+            @if (book.category) {
+              <span class="genre-tag">{{ categoryLabel(book.category) }}</span>
             }
-            @if (book.publishedYear) {
-              <span class="year-tag">{{ book.publishedYear }}</span>
+            @if (book.year) {
+              <span class="year-tag">{{ book.year }}</span>
             }
-            <span class="status-badge status-{{ book.readingStatus }}">
-              {{ statusLabel(book.readingStatus) }}
+            <span class="status-badge status-{{ book.status }}">
+              {{ statusLabel(book.status) }}
             </span>
           </div>
 
@@ -115,7 +115,7 @@
   } @else {
     <div class="empty-state">
       <mat-icon class="empty-icon">library_books</mat-icon>
-      @if (searchQuery() || selectedGenre()) {
+      @if (searchQuery() || selectedCategory()) {
         <h2 i18n="@@list.no_results.title">No results</h2>
         <p i18n="@@list.no_results.msg">Try adjusting your filters</p>
         <div class="empty-actions">
@@ -125,10 +125,10 @@
               <span i18n="@@list.no_results.clear_search">Clear search</span>
             </button>
           }
-          @if (selectedGenre()) {
-            <button mat-stroked-button (click)="selectedGenre.set('')">
+          @if (selectedCategory()) {
+            <button mat-stroked-button (click)="selectedCategory.set('')">
               <mat-icon>filter_alt_off</mat-icon>
-              <span i18n="@@list.no_results.all_genres">All genres</span>
+              <span i18n="@@list.no_results.all_categories">All categories</span>
             </button>
           }
         </div>

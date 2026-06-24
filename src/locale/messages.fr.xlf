@@ -46,11 +46,51 @@
         <source>Read</source>
         <target>Lu</target>
       </trans-unit>
-      <trans-unit id="sort.createdAt_desc" datatype="html">
-        <source>Date added</source>
-        <target>Date d&apos;ajout</target>
+      <trans-unit id="category.novel" datatype="html">
+        <source>Novel</source>
+        <target>Roman</target>
       </trans-unit>
-      <trans-unit id="sort.title_asc" datatype="html">
+      <trans-unit id="category.fantasy" datatype="html">
+        <source>Fantasy</source>
+        <target>Fantaisie</target>
+      </trans-unit>
+      <trans-unit id="category.science_fiction" datatype="html">
+        <source>Science fiction</source>
+        <target>Science-fiction</target>
+      </trans-unit>
+      <trans-unit id="category.thriller" datatype="html">
+        <source>Thriller</source>
+        <target>Thriller</target>
+      </trans-unit>
+      <trans-unit id="category.crime" datatype="html">
+        <source>Crime</source>
+        <target>Policier</target>
+      </trans-unit>
+      <trans-unit id="category.horror" datatype="html">
+        <source>Horror</source>
+        <target>Horreur</target>
+      </trans-unit>
+      <trans-unit id="category.biography" datatype="html">
+        <source>Biography</source>
+        <target>Biographie</target>
+      </trans-unit>
+      <trans-unit id="category.history" datatype="html">
+        <source>History</source>
+        <target>Histoire</target>
+      </trans-unit>
+      <trans-unit id="category.poetry" datatype="html">
+        <source>Poetry</source>
+        <target>Poésie</target>
+      </trans-unit>
+      <trans-unit id="category.children" datatype="html">
+        <source>Children</source>
+        <target>Jeunesse</target>
+      </trans-unit>
+      <trans-unit id="sort.id_desc" datatype="html">
+        <source>Recently added</source>
+        <target>Récemment ajoutés</target>
+      </trans-unit>
+      <trans-unit id="sort.name_asc" datatype="html">
         <source>Title (A → Z)</source>
         <target>Titre (A → Z)</target>
       </trans-unit>
@@ -58,7 +98,7 @@
         <source>Author (A → Z)</source>
         <target>Auteur (A → Z)</target>
       </trans-unit>
-      <trans-unit id="sort.publishedYear_desc" datatype="html">
+      <trans-unit id="sort.year_desc" datatype="html">
         <source>Year (newest → oldest)</source>
         <target>Année (récent → ancien)</target>
       </trans-unit>
@@ -82,17 +122,13 @@
         <source>Publication year</source>
         <target>Année de publication</target>
       </trans-unit>
+      <trans-unit id="detail.pages" datatype="html">
+        <source>Pages</source>
+        <target>Pages</target>
+      </trans-unit>
       <trans-unit id="detail.isbn" datatype="html">
         <source>ISBN</source>
         <target>ISBN</target>
-      </trans-unit>
-      <trans-unit id="detail.finished_at" datatype="html">
-        <source>Finished on</source>
-        <target>Terminé le</target>
-      </trans-unit>
-      <trans-unit id="detail.added_at" datatype="html">
-        <source>Added on</source>
-        <target>Ajouté le</target>
       </trans-unit>
       <trans-unit id="detail.description" datatype="html">
         <source>Description</source>
@@ -122,6 +158,10 @@
         <source>Invalid year (between 1000 and <x id="max" equiv-text="currentYear"/>)</source>
         <target>Année invalide (entre 1000 et <x id="max" equiv-text="currentYear"/>)</target>
       </trans-unit>
+      <trans-unit id="form.year.required" datatype="html">
+        <source>Year is required</source>
+        <target>L&apos;année est obligatoire</target>
+      </trans-unit>
       <trans-unit id="form.sections.main" datatype="html">
         <source>Main information</source>
         <target>Informations principales</target>
@@ -146,17 +186,13 @@
         <source>Author&apos;s first and last name</source>
         <target>Prénom et nom de l&apos;auteur</target>
       </trans-unit>
-      <trans-unit id="form.author.required" datatype="html">
-        <source>Author is required</source>
-        <target>L&apos;auteur est obligatoire</target>
+      <trans-unit id="form.category.label" datatype="html">
+        <source>Category</source>
+        <target>Catégorie</target>
       </trans-unit>
-      <trans-unit id="form.genre.label" datatype="html">
-        <source>Genre</source>
-        <target>Genre</target>
-      </trans-unit>
-      <trans-unit id="form.genre.none" datatype="html">
+      <trans-unit id="form.category.none" datatype="html">
         <source>-- None --</source>
-        <target>-- Aucun --</target>
+        <target>-- Aucune --</target>
       </trans-unit>
       <trans-unit id="form.year.label" datatype="html">
         <source>Publication year</source>
@@ -178,6 +214,26 @@
         <source>e.g. 978-2-07-036024-3</source>
         <target>ex : 978-2-07-036024-3</target>
       </trans-unit>
+      <trans-unit id="form.isbn.required" datatype="html">
+        <source>ISBN is required</source>
+        <target>L&apos;ISBN est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="form.pages.label" datatype="html">
+        <source>Number of pages</source>
+        <target>Nombre de pages</target>
+      </trans-unit>
+      <trans-unit id="form.pages.placeholder" datatype="html">
+        <source>e.g. 320</source>
+        <target>ex : 320</target>
+      </trans-unit>
+      <trans-unit id="form.pages.required" datatype="html">
+        <source>Number of pages is required</source>
+        <target>Le nombre de pages est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="form.pages.invalid" datatype="html">
+        <source>Invalid number of pages</source>
+        <target>Nombre de pages invalide</target>
+      </trans-unit>
       <trans-unit id="form.description.label" datatype="html">
         <source>Description</source>
         <target>Description</target>
@@ -194,10 +250,6 @@
         <source>Status</source>
         <target>Statut</target>
       </trans-unit>
-      <trans-unit id="form.finished_at.label" datatype="html">
-        <source>End date</source>
-        <target>Date de fin</target>
-      </trans-unit>
       <trans-unit id="form.rating.label" datatype="html">
         <source>Personal rating</source>
         <target>Note personnelle</target>
@@ -207,8 +259,8 @@
         <target>Ma Bibliothèque</target>
       </trans-unit>
       <trans-unit id="list.search" datatype="html">
-        <source>Search a book, author, genre…</source>
-        <target>Rechercher un livre, auteur, genre…</target>
+        <source>Search a book, author, category…</source>
+        <target>Rechercher un livre, auteur, catégorie…</target>
       </trans-unit>
       <trans-unit id="list.clear" datatype="html">
         <source>Clear</source>
@@ -222,13 +274,13 @@
         <source>New book</source>
         <target>Nouveau livre</target>
       </trans-unit>
-      <trans-unit id="list.filter_genre" datatype="html">
-        <source>Filter by genre</source>
-        <target>Filtrer par genre</target>
+      <trans-unit id="list.filter_category" datatype="html">
+        <source>Filter by category</source>
+        <target>Filtrer par catégorie</target>
       </trans-unit>
       <trans-unit id="list.all" datatype="html">
         <source>All</source>
-        <target>Tous</target>
+        <target>Toutes</target>
       </trans-unit>
       <trans-unit id="list.results" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ totalCount() }}"/> book(s)</source>
@@ -238,9 +290,9 @@
         <source>for &quot;<x id="INTERPOLATION" equiv-text="{{ searchQuery() }}"/>&quot;</source>
         <target>pour &quot;<x id="INTERPOLATION" equiv-text="{{ searchQuery() }}"/>&quot;</target>
       </trans-unit>
-      <trans-unit id="list.genre_active" datatype="html">
-        <source>· <x id="INTERPOLATION" equiv-text="{{ selectedGenre() }}"/></source>
-        <target>· <x id="INTERPOLATION" equiv-text="{{ selectedGenre() }}"/></target>
+      <trans-unit id="list.category_active" datatype="html">
+        <source>· <x id="INTERPOLATION" equiv-text="{{ categoryLabel($any(selectedCategory())) }}"/></source>
+        <target>· <x id="INTERPOLATION" equiv-text="{{ categoryLabel($any(selectedCategory())) }}"/></target>
       </trans-unit>
       <trans-unit id="list.no_results.title" datatype="html">
         <source>No results</source>
@@ -254,9 +306,9 @@
         <source>Clear search</source>
         <target>Effacer la recherche</target>
       </trans-unit>
-      <trans-unit id="list.no_results.all_genres" datatype="html">
-        <source>All genres</source>
-        <target>Tous les genres</target>
+      <trans-unit id="list.no_results.all_categories" datatype="html">
+        <source>All categories</source>
+        <target>Toutes les catégories</target>
       </trans-unit>
       <trans-unit id="list.empty.title" datatype="html">
         <source>No books in the library</source>
@@ -283,8 +335,8 @@
         <target>Supprimer le livre</target>
       </trans-unit>
       <trans-unit id="confirm.delete_msg" datatype="html">
-        <source>Are you sure you want to delete &quot;<x id="title" equiv-text="book.title"/>&quot; by <x id="author" equiv-text="book.author"/>?</source>
-        <target>Êtes-vous sûr de vouloir supprimer &quot;<x id="title" equiv-text="book.title"/>&quot; de <x id="author" equiv-text="book.author"/> ?</target>
+        <source>Are you sure you want to delete &quot;<x id="title" equiv-text="book.name"/>&quot; by <x id="author" equiv-text="book.author"/>?</source>
+        <target>Êtes-vous sûr de vouloir supprimer &quot;<x id="title" equiv-text="book.name"/>&quot; de <x id="author" equiv-text="book.author"/> ?</target>
       </trans-unit>
       <trans-unit id="confirm.delete_btn" datatype="html">
         <source>Delete</source>

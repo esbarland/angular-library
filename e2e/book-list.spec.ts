@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { resetData, waitForList } from './helpers';
+import { mockApi, waitForList } from './helpers';
 
 test.beforeEach(async ({ page }) => {
-  await resetData(page);
+  await mockApi(page);
   await waitForList(page);
 });
 
@@ -25,10 +25,10 @@ test('affiche les titres des livres dans les lignes', async ({ page }) => {
 
 test('affiche le badge statut de chaque livre', async ({ page }) => {
   await expect(page.locator('.status-badge').first()).toBeVisible();
-  await expect(page.locator('.status-badge.status-read').first()).toBeVisible();
+  await expect(page.locator('.status-badge.status-READ').first()).toBeVisible();
 });
 
-// ── Recherche ──────────────────────────────────────────────────────────────
+// ── Recherche (côté serveur) ────────────────────────────────────────────────
 
 test('filtre les livres par titre', async ({ page }) => {
   await page.locator('.search-field input').fill('Dune');
@@ -62,29 +62,29 @@ test('le bouton effacer depuis l\'état vide restaure la liste', async ({ page }
   await expect(page.locator('.book-row')).toHaveCount(5);
 });
 
-// ── Filtre par genre ───────────────────────────────────────────────────────
-// Les genres sont des données (non traduites), on peut filtrer par leur texte.
+// ── Filtre par catégorie ─────────────────────────────────────────────────────
+// Sélection via data-testid (valeur d'énumération) → indépendant de la locale servie.
 
-test('filtre par genre Fantasy affiche 1 livre', async ({ page }) => {
-  await page.locator('mat-chip-option').filter({ hasText: 'Fantasy' }).click();
+test('filtre par catégorie Fantasy affiche 1 livre', async ({ page }) => {
+  await page.getByTestId('category-FANTASY').click();
   await expect(page.locator('.book-row')).toHaveCount(1);
   await expect(page.locator('.row-title')).toHaveText('Le Seigneur des Anneaux');
 });
 
-test('filtre par genre Fiction affiche 2 livres', async ({ page }) => {
-  await page.locator('mat-chip-option').filter({ hasText: /^Fiction$/ }).click();
+test('filtre par catégorie Novel affiche 2 livres', async ({ page }) => {
+  await page.getByTestId('category-NOVEL').click();
   await expect(page.locator('.book-row')).toHaveCount(2);
 });
 
-test('chip "Tous" réinitialise le filtre genre', async ({ page }) => {
-  await page.locator('mat-chip-option').filter({ hasText: 'Fantasy' }).click();
+test('chip "Tous" réinitialise le filtre catégorie', async ({ page }) => {
+  await page.getByTestId('category-FANTASY').click();
   await expect(page.locator('.book-row')).toHaveCount(1);
   await page.getByTestId('genre-all').click();
   await expect(page.locator('.book-row')).toHaveCount(5);
 });
 
-test('combine recherche et filtre genre', async ({ page }) => {
-  await page.locator('mat-chip-option').filter({ hasText: /^Fiction$/ }).click();
+test('combine recherche et filtre catégorie', async ({ page }) => {
+  await page.getByTestId('category-NOVEL').click();
   await page.locator('.search-field input').fill('1984');
   await expect(page.locator('.book-row')).toHaveCount(1);
   await expect(page.locator('.row-title')).toHaveText('1984');
@@ -94,7 +94,7 @@ test('combine recherche et filtre genre', async ({ page }) => {
 
 test('tri par titre A→Z réordonne la liste', async ({ page }) => {
   await page.locator('.sort-field mat-select').click();
-  await page.getByTestId('sort-title-asc').click();
+  await page.getByTestId('sort-name-asc').click();
   const titles = await page.locator('.row-title').allTextContents();
   const sorted = [...titles].sort((a, b) => a.localeCompare(b, 'fr'));
   expect(titles).toEqual(sorted);
@@ -108,7 +108,7 @@ test('tri par auteur A→Z réordonne la liste', async ({ page }) => {
   expect(authors).toEqual(sorted);
 });
 
-test('tri par date d\'ajout (défaut) — ordre par défaut', async ({ page }) => {
+test('tri "Récemment ajoutés" (défaut) — id décroissant', async ({ page }) => {
   const titles = await page.locator('.row-title').allTextContents();
   expect(titles[0]).toBe('Le Petit Prince');
   expect(titles[4]).toBe('Le Seigneur des Anneaux');
